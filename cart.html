@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>سلة المشتريات – خلتشي خلتشي</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="css/food.css"/>
+  <style>
+    :root{--red:#d90429;--orange:#ff5722;--gold:#ffb703;--dark:#101216;--dark2:#181c24;--dark3:#1f242f;--card-bg:#1a1f2b;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--dark);color:#fff;font-family:'Cairo',sans-serif;overflow-x:hidden;}
+
+    /* NAV */
+    .food-nav{position:fixed;top:0;left:0;right:0;z-index:999;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(16,18,22,.92);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,183,3,.15);}
+    .nav-brand{font-size:1.6rem;font-weight:900;color:#fff;text-decoration:none;letter-spacing:1px;}
+    .nav-brand span{color:var(--gold);}
+    .nav-links{display:flex;gap:24px;list-style:none;}
+    .nav-links a{color:rgba(255,255,255,.8);text-decoration:none;font-weight:600;font-size:.95rem;transition:.3s;padding:6px 14px;border-radius:30px;}
+    .nav-links a:hover,.nav-links a.active{color:var(--gold);background:rgba(255,183,3,.12);}
+    .nav-cart-btn{background:linear-gradient(135deg,var(--red),var(--orange));color:#fff;border:none;padding:10px 22px;border-radius:30px;font-family:'Cairo',sans-serif;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;transition:.3s;text-decoration:none;}
+    .nav-cart-btn:hover{transform:scale(1.05);box-shadow:0 6px 24px rgba(217,4,41,.4);}
+    .cart-count{background:#fff;color:var(--red);border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:900;}
+
+    /* PAGE HEADER */
+    .page-header{margin-top:72px;padding:50px 32px 30px;background:linear-gradient(135deg,#0d1117 0%,#1a0a00 100%);text-align:center;position:relative;overflow:hidden;}
+    .page-header::before{content:'🛒';font-size:160px;position:absolute;right:-20px;top:-20px;opacity:.05;animation:pulse 3s ease-in-out infinite;}
+    @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+    .page-header h1{font-size:2.5rem;font-weight:900;}
+    .page-header h1 span{color:var(--gold);}
+    .page-header p{color:rgba(255,255,255,.6);margin-top:8px;}
+
+    /* LAYOUT */
+    .cart-layout{display:grid;grid-template-columns:1fr 380px;gap:28px;max-width:1200px;margin:0 auto;padding:40px 24px;}
+    @media(max-width:900px){.cart-layout{grid-template-columns:1fr;}}
+
+    /* CART ITEMS */
+    .cart-items-panel{background:var(--card-bg);border-radius:20px;padding:24px;border:1px solid rgba(255,183,3,.1);}
+    .cart-items-panel h2{font-size:1.2rem;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+    .cart-items-panel h2 i{color:var(--gold);}
+
+    #cartItemsList{}
+    .cart-item-card{display:flex;align-items:center;gap:16px;background:var(--dark3);border-radius:16px;padding:16px;margin-bottom:12px;border:1px solid rgba(255,255,255,.05);transition:.3s;animation:slideIn .4s ease;}
+    @keyframes slideIn{from{opacity:0;transform:translateX(20px);}to{opacity:1;transform:translateX(0);}}
+    .cart-item-card:hover{border-color:rgba(255,183,3,.2);}
+    .cart-item-emoji{font-size:2.8rem;min-width:50px;text-align:center;filter:drop-shadow(0 4px 8px rgba(0,0,0,.4));}
+    .cart-item-info{flex:1;}
+    .cart-item-info h4{font-weight:800;font-size:1rem;margin-bottom:4px;}
+    .cart-item-info p{color:rgba(255,255,255,.5);font-size:.8rem;}
+    .cart-item-price{color:var(--gold);font-weight:900;font-size:1.1rem;min-width:70px;text-align:center;}
+    .qty-controls{display:flex;align-items:center;gap:8px;}
+    .qty-btn{width:30px;height:30px;border-radius:50%;border:none;cursor:pointer;font-size:1rem;font-weight:900;display:flex;align-items:center;justify-content:center;transition:.3s;}
+    .qty-btn.minus{background:rgba(217,4,41,.2);color:var(--red);}
+    .qty-btn.minus:hover{background:var(--red);color:#fff;}
+    .qty-btn.plus{background:rgba(255,183,3,.2);color:var(--gold);}
+    .qty-btn.plus:hover{background:var(--gold);color:#000;}
+    .qty-num{font-weight:900;font-size:1rem;min-width:20px;text-align:center;}
+    .remove-btn{background:none;border:none;color:rgba(255,255,255,.3);cursor:pointer;font-size:1rem;transition:.3s;padding:4px;}
+    .remove-btn:hover{color:var(--red);}
+
+    /* EMPTY CART */
+    .empty-cart{text-align:center;padding:60px 20px;color:rgba(255,255,255,.3);}
+    .empty-cart i{font-size:4rem;margin-bottom:16px;display:block;color:rgba(255,183,3,.2);}
+    .empty-cart h3{font-size:1.3rem;margin-bottom:8px;}
+    .empty-cart p{font-size:.9rem;margin-bottom:20px;}
+    .btn-go-menu{background:linear-gradient(135deg,var(--red),var(--orange));color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-weight:700;display:inline-block;transition:.3s;}
+    .btn-go-menu:hover{transform:scale(1.05);}
+
+    /* SUMMARY PANEL */
+    .summary-panel{position:sticky;top:90px;}
+    .summary-card{background:var(--card-bg);border-radius:20px;padding:24px;border:1px solid rgba(255,183,3,.15);margin-bottom:20px;}
+    .summary-card h3{font-size:1rem;font-weight:800;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+    .summary-card h3 i{color:var(--gold);}
+    .summary-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.9rem;}
+    .summary-row:last-of-type{border-bottom:none;}
+    .summary-row .label{color:rgba(255,255,255,.6);}
+    .summary-row .val{font-weight:700;}
+    .summary-row.total{padding-top:14px;margin-top:4px;border-top:2px solid rgba(255,183,3,.2);}
+    .summary-row.total .label{font-size:1.1rem;font-weight:800;color:#fff;}
+    .summary-row.total .val{font-size:1.3rem;color:var(--gold);font-weight:900;}
+    .discount-row .val{color:#4ade80;}
+
+    /* COUPON */
+    .coupon-box{display:flex;gap:8px;margin:16px 0;}
+    .coupon-input{flex:1;background:var(--dark3);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 14px;color:#fff;font-family:'Cairo',sans-serif;font-size:.9rem;outline:none;transition:.3s;}
+    .coupon-input:focus{border-color:var(--gold);}
+    .coupon-btn{background:linear-gradient(135deg,var(--gold),#ff9500);color:#000;border:none;padding:10px 18px;border-radius:10px;font-family:'Cairo',sans-serif;font-weight:800;cursor:pointer;transition:.3s;white-space:nowrap;}
+    .coupon-btn:hover{transform:scale(1.05);}
+    .coupon-msg{font-size:.8rem;min-height:18px;padding:2px 0;}
+    .coupon-msg.success{color:#4ade80;}
+    .coupon-msg.error{color:var(--red);}
+
+    /* PLACE ORDER BTN */
+    .btn-place-order{background:linear-gradient(135deg,var(--red),var(--orange));color:#fff;border:none;padding:16px;border-radius:14px;font-family:'Cairo',sans-serif;font-size:1.1rem;font-weight:900;cursor:pointer;width:100%;transition:.3s;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:16px;box-shadow:0 6px 24px rgba(217,4,41,.3);}
+    .btn-place-order:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(217,4,41,.5);}
+    .btn-place-order:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+    .cal-note{text-align:center;font-size:.75rem;color:rgba(255,255,255,.4);margin-top:8px;}
+
+    /* ORDER TRACKER */
+    .tracker-card{background:var(--card-bg);border-radius:20px;padding:24px;border:1px solid rgba(255,183,3,.15);display:none;}
+    .tracker-card.visible{display:block;animation:slideIn .5s ease;}
+    .tracker-title{font-size:1.2rem;font-weight:900;margin-bottom:6px;text-align:center;}
+    .tracker-title i{color:var(--gold);}
+    .tracker-status-title{font-size:1rem;font-weight:700;text-align:center;color:var(--gold);margin:12px 0 4px;}
+    .tracker-status-desc{font-size:.85rem;text-align:center;color:rgba(255,255,255,.6);margin-bottom:16px;}
+    .tracker-eta{text-align:center;font-size:.8rem;color:rgba(255,255,255,.4);margin-bottom:20px;}
+    .tracker-eta strong{color:var(--orange);}
+
+    /* PROGRESS BAR */
+    .tracker-progress-bar{height:6px;background:var(--dark3);border-radius:3px;margin-bottom:24px;overflow:hidden;}
+    .tracker-progress-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--gold));border-radius:3px;width:0%;transition:width 1s ease;}
+
+    /* NODES */
+    .tracker-nodes{display:flex;justify-content:space-between;position:relative;}
+    .tracker-nodes::before{content:'';position:absolute;top:18px;left:10%;right:10%;height:2px;background:var(--dark3);z-index:0;}
+    .tracker-node{display:flex;flex-direction:column;align-items:center;gap:6px;z-index:1;flex:1;}
+    .node-circle{width:36px;height:36px;border-radius:50%;background:var(--dark3);border:3px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:1rem;transition:.5s;}
+    .node-circle.done{background:linear-gradient(135deg,var(--red),var(--orange));border-color:var(--orange);box-shadow:0 0 16px rgba(255,87,34,.5);}
+    .node-circle.active{background:var(--dark3);border-color:var(--gold);animation:nodePulse 1s ease-in-out infinite;}
+    @keyframes nodePulse{0%,100%{box-shadow:0 0 0 0 rgba(255,183,3,.4);}50%{box-shadow:0 0 0 8px rgba(255,183,3,0);}}
+    .node-label{font-size:.65rem;color:rgba(255,255,255,.4);text-align:center;max-width:60px;}
+    .node-label.done{color:var(--gold);}
+
+    /* TOAST */
+    .toast-popup{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:linear-gradient(135deg,var(--red),var(--orange));color:#fff;padding:14px 28px;border-radius:30px;font-weight:700;font-size:1rem;z-index:9999;transition:.4s;opacity:0;pointer-events:none;box-shadow:0 8px 32px rgba(217,4,41,.5);}
+    .toast-popup.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+    /* FOOTER */
+    .food-footer{background:var(--dark2);border-top:1px solid rgba(255,183,3,.1);padding:40px 32px;text-align:center;margin-top:60px;}
+    .footer-brand{font-size:1.5rem;font-weight:900;margin-bottom:12px;}
+    .footer-brand span{color:var(--gold);}
+    .footer-links{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:16px;}
+    .footer-links a{color:rgba(255,255,255,.5);text-decoration:none;font-size:.85rem;transition:.3s;}
+    .footer-links a:hover{color:var(--gold);}
+    .footer-copy{color:rgba(255,255,255,.3);font-size:.8rem;}
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="food-nav">
+  <a href="index.html" class="nav-brand"><span>خلتشي</span> خلتشي</a>
+  <ul class="nav-links">
+    <li><a href="index.html">الرئيسية</a></li>
+    <li><a href="menu.html">القائمة</a></li>
+    <li><a href="search.html">🔍 بحث</a></li>
+    <li><a href="pizza-maker.html">مطبخ البيتزا</a></li>
+    <li><a href="burger-maker.html">مختبر البرجر</a></li>
+    <li><a href="offers.html">العروض</a></li>
+    <li><a href="profile.html"><i class="fas fa-user-circle"></i> الملف الشخصي</a></li>
+  </ul>
+  <a href="cart.html" class="nav-cart-btn active">
+    <i class="fas fa-shopping-cart"></i>
+    السلة
+    <span class="cart-count" id="navCartCount">0</span>
+  </a>
+</nav>
+
+<!-- HEADER -->
+<div class="page-header">
+  <div style="display:inline-flex; align-items:center; gap:10px; background:rgba(255,183,3,.15); border:1px solid rgba(255,183,3,.3); border-radius:30px; padding:6px 18px; margin-bottom:14px;">
+    <img src="images/chef4.jpg" alt="الشيف حنين عادل" style="width:36px; height:36px; border-radius:50%; object-fit:cover; border:2px solid #ffb703;" />
+    <span style="font-size:0.88rem; font-weight:700; color:#ffb703;">ضمان ومذاق الشيف وصاحبة المطعم حنين عادل 👩‍🍳</span>
+  </div>
+  <h1>🛒 <span>سلة</span> مشترياتك</h1>
+  <p>راجع سلتك واحفظ ملخص الطلب لمراجعته لاحقاً.</p>
+</div>
+
+<!-- MAIN -->
+<div class="cart-layout">
+
+  <!-- CART ITEMS -->
+  <div>
+    <div class="cart-items-panel">
+      <h2><i class="fas fa-list"></i> عناصر السلة</h2>
+      <div id="cartItemsList">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- SUMMARY + TRACKER -->
+  <div class="summary-panel">
+
+    <!-- COUPON + SUMMARY -->
+    <div class="summary-card">
+      <h3><i class="fas fa-receipt"></i> ملخص الطلب</h3>
+
+      <!-- COUPON -->
+      <div class="coupon-box">
+        <input class="coupon-input" id="couponInput" type="text" placeholder="كود الخصم..." />
+        <button class="coupon-btn" onclick="applyCoupon()">تطبيق</button>
+      </div>
+      <p class="coupon-msg" id="couponMsg"></p>
+
+      <!-- SUMMARY ROWS -->
+      <div class="summary-row">
+        <span class="label">المجموع الفرعي</span>
+        <span class="val" id="cartSubtotal">0.00 د.أ</span>
+      </div>
+      <div class="summary-row discount-row">
+        <span class="label">الخصم</span>
+        <span class="val" id="cartDiscount">-0.00 د.أ</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">التوصيل</span>
+        <span class="val" id="cartDelivery">1.50 د.أ</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">السعرات الكلية</span>
+        <span class="val" id="cartTotalCalories">0 سعرة</span>
+      </div>
+      <div class="summary-row total">
+        <span class="label">الإجمالي</span>
+        <span class="val" id="cartFinalTotal">0.00 د.أ</span>
+      </div>
+
+      <button class="btn-place-order" id="btnPlaceOrder" onclick="placeOrder()">
+        <i class="fas fa-rocket"></i> حفظ الطلب ومتابعة تجريبية
+      </button>
+      <p class="cal-note">التوصيل 1.50 د.أ، ومجاني للطلبات فوق 15.00 د.أ.</p>
+      <p class="cal-note">الطلب يُحفظ على هذا الجهاز وتتبعه تجريبي؛ لا يوجد إرسال للمطعم أو دفع إلكتروني.</p>
+    </div>
+
+    <!-- ORDER TRACKER -->
+    <div class="tracker-card" id="orderTrackerContainer">
+      <div class="tracker-title"><i class="fas fa-motorcycle"></i> تتبع طلبك</div>
+      <p class="cal-note" id="trackerOrderSummary"></p>
+      <p class="cal-note">هذه متابعة تجريبية فقط؛ لم يتم إرسال الطلب إلى مطعم أو مندوب.</p>
+
+      <div class="tracker-status-title" id="trackerStatusTitle">جارٍ تحضير طلبك...</div>
+      <div class="tracker-status-desc" id="trackerStatusDesc">الشيف يستعد لك!</div>
+      <div class="tracker-eta" id="trackerEta">الوقت المتوقع: <strong>35 دقيقة</strong></div>
+
+      <div class="tracker-progress-bar">
+        <div class="tracker-progress-fill" id="trackerProgressFill"></div>
+      </div>
+
+      <div class="tracker-nodes">
+        <div class="tracker-node">
+          <div class="node-circle" id="trackerNode1">📋</div>
+          <span class="node-label" id="trackerNodeLabel1">تأكيد</span>
+        </div>
+        <div class="tracker-node">
+          <div class="node-circle" id="trackerNode2">👨‍🍳</div>
+          <span class="node-label" id="trackerNodeLabel2">التحضير</span>
+        </div>
+        <div class="tracker-node">
+          <div class="node-circle" id="trackerNode3">📦</div>
+          <span class="node-label" id="trackerNodeLabel3">التعبئة</span>
+        </div>
+        <div class="tracker-node">
+          <div class="node-circle" id="trackerNode4">🏍️</div>
+          <span class="node-label" id="trackerNodeLabel4">التوصيل</span>
+        </div>
+        <div class="tracker-node">
+          <div class="node-circle" id="trackerNode5">🎉</div>
+          <span class="node-label" id="trackerNodeLabel5">وصل!</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="food-footer">
+  <div class="footer-brand"><span>خلتشي</span> خلتشي</div>
+  <div class="footer-links">
+    <a href="index.html">الرئيسية</a>
+    <a href="menu.html">القائمة</a>
+    <a href="pizza-maker.html">مطبخ البيتزا</a>
+    <a href="burger-maker.html">مختبر البرجر</a>
+    <a href="offers.html">العروض</a>
+  </div>
+  <p class="footer-copy">© 2025 خلتشي خلتشي — كل الحقوق محفوظة 🍔</p>
+</footer>
+
+<div class="toast-popup" id="toastMsg"></div>
+
+<!-- SCRIPTS -->
+<script src="js/profile-manager.js"></script>
+<script src="js/food-data.js"></script>
+<script src="js/food-audio.js"></script>
+<script src="js/customizer.js"></script>
+<script src="js/food-main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const savedCoupon = localStorage.getItem('khaltchi_coupon');
+  if (!savedCoupon && localStorage.getItem('khaltchi_discount') !== null) {
+    localStorage.removeItem('khaltchi_discount');
+  }
+  if (savedCoupon) document.getElementById('couponInput').value = savedCoupon;
+  renderCartPage();
+});
+
+function readCart() {
+  const raw = JSON.parse(localStorage.getItem('khaltchi_cart') || '[]');
+  if (!Array.isArray(raw)) throw new Error('بيانات السلة غير صالحة');
+  const cart = raw.map(item => {
+    const { quantity: legacyQuantity, calories: legacyCalories, ...normalizedItem } = item;
+    const price = Number(item.price);
+    const qty = Number(item.qty ?? legacyQuantity ?? 1);
+    const cal = Number(item.cal ?? legacyCalories ?? 0);
+    if (!Number.isFinite(price) || price < 0 || !Number.isSafeInteger(qty) || qty < 1 || !Number.isFinite(cal) || cal < 0) {
+      throw new Error('يوجد عنصر ببيانات سعر أو كمية غير صالحة');
+    }
+    return { ...normalizedItem, price: Math.round(price * 100) / 100, qty, cal };
+  });
+  if (JSON.stringify(cart) !== JSON.stringify(raw)) {
+    localStorage.setItem('khaltchi_cart', JSON.stringify(cart));
+  }
+  return cart;
+}
+
+function getTotals(cart) {
+  const subtotalCents = cart.reduce((sum, item) => sum + Math.round(item.price * 100) * item.qty, 0);
+  const code = (localStorage.getItem('khaltchi_coupon') || '').trim().toUpperCase();
+  const promo = typeof PROMO_CODES !== 'undefined' ? PROMO_CODES[code] : null;
+  const eligible = promo && subtotalCents >= Math.round(Number(promo.minSubtotal || 0) * 100);
+  let discountCents = 0;
+  if (eligible && Number.isFinite(Number(promo.discountPercent))) {
+    discountCents = Math.round(subtotalCents * Number(promo.discountPercent) / 100);
+  } else if (eligible && Number.isFinite(Number(promo.discountFixed))) {
+    discountCents = Math.min(subtotalCents, Math.round(Number(promo.discountFixed) * 100));
+  }
+  const deliveryCents = subtotalCents === 0 || subtotalCents > 1500 ? 0 : 150;
+  return {
+    subtotalCents,
+    discountCents,
+    deliveryCents,
+    totalCents: Math.max(0, subtotalCents - discountCents + deliveryCents),
+    calories: cart.reduce((sum, item) => sum + item.cal * item.qty, 0),
+    code,
+    promo,
+    eligible
+  };
+}
+
+function money(cents) {
+  return (cents / 100).toFixed(2);
+}
+
+function renderCartPage() {
+  const listEl = document.getElementById('cartItemsList');
+  let cart;
+  try {
+    cart = readCart();
+  } catch (error) {
+    console.error('تعذر عرض السلة:', error);
+    listEl.textContent = 'تعذر قراءة أو تحديث بيانات السلة. تحقق من التخزين المحلي ثم حاول مجدداً.';
+    document.getElementById('btnPlaceOrder').disabled = true;
+    return;
+  }
+  if (cart.length === 0) {
+    listEl.innerHTML = `
+      <div class="empty-cart">
+        <i class="fas fa-shopping-cart"></i>
+        <h3>سلتك فارغة!</h3>
+        <p>أضف بعض الوجبات اللذيذة من قائمتنا</p>
+        <a href="menu.html" class="btn-go-menu">🍕 تصفح القائمة</a>
+      </div>`;
+    document.getElementById('btnPlaceOrder').disabled = true;
+    updateSummary(cart);
+    return;
+  }
+
+  document.getElementById('btnPlaceOrder').disabled = false;
+  listEl.innerHTML = '';
+
+  cart.forEach((item, idx) => {
+    const card = document.createElement('div');
+    card.className = 'cart-item-card';
+    card.innerHTML = `
+      <div style="width: 72px; height: 72px; border-radius: 14px; overflow: hidden; flex-shrink: 0; background: #1f242f; border: 1px solid rgba(255,183,3,0.3); display: flex; align-items: center; justify-content: center;">
+        ${item.img ? `<img src="${item.img}" alt="${item.name}" style="width:100%; height:100%; object-fit:cover;" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" /><span style="display:none; font-size:2rem;">${item.emoji || '🍔'}</span>` : `<span style="font-size:2rem;">${item.emoji || '🍔'}</span>`}
+      </div>
+      <div class="cart-item-info">
+        <h4>${item.name}</h4>
+        <p>${item.desc || ''}</p>
+      </div>
+      <div class="cart-item-price">${money(Math.round(item.price * 100) * item.qty)} د.أ</div>
+      <div class="qty-controls">
+        <button class="qty-btn minus" onclick="changeQty(${idx}, -1)"><i class="fas fa-minus"></i></button>
+        <span class="qty-num">${item.qty}</span>
+        <button class="qty-btn plus" onclick="changeQty(${idx}, 1)"><i class="fas fa-plus"></i></button>
+      </div>
+      <button class="remove-btn" onclick="removeItem(${idx})" title="حذف"><i class="fas fa-trash"></i></button>`;
+    listEl.appendChild(card);
+  });
+
+  updateSummary(cart);
+}
+
+function updateSummary(cart) {
+  const totals = getTotals(cart);
+  const couponMsg = document.getElementById('couponMsg');
+  if (totals.code && totals.promo && totals.eligible) {
+    couponMsg.textContent = `✅ ${totals.promo.desc} — خصم ${money(totals.discountCents)} د.أ`;
+    couponMsg.className = 'coupon-msg success';
+  } else if (totals.code && totals.promo && !totals.eligible) {
+    const minimum = Number(totals.promo.minSubtotal || 0);
+    couponMsg.textContent = `الحد الأدنى لهذا الكوبون ${minimum.toFixed(2)} د.أ؛ لم يعد الخصم سارياً.`;
+    couponMsg.className = 'coupon-msg error';
+  }
+  document.getElementById('cartSubtotal').textContent = money(totals.subtotalCents) + ' د.أ';
+  document.getElementById('cartDiscount').textContent = '-' + money(totals.discountCents) + ' د.أ';
+  document.getElementById('cartDelivery').textContent = totals.deliveryCents === 0 ? 'مجاني 🎁' : money(totals.deliveryCents) + ' د.أ';
+  document.getElementById('cartFinalTotal').textContent = money(totals.totalCents) + ' د.أ';
+  document.getElementById('cartTotalCalories').textContent = totals.calories + ' سعرة';
+  updateNavCart();
+}
+
+function changeQty(idx, delta) {
+  const cart = readCart();
+  if (!cart[idx]) return;
+  const nextQty = cart[idx].qty + delta;
+  if (!Number.isSafeInteger(nextQty)) throw new Error('تجاوزت الكمية الحد المسموح');
+  cart[idx].qty = nextQty;
+  if (cart[idx].qty <= 0) cart.splice(idx, 1);
+  localStorage.setItem('khaltchi_cart', JSON.stringify(cart));
+  renderCartPage();
+}
+
+function removeItem(idx) {
+  const cart = readCart();
+  cart.splice(idx, 1);
+  localStorage.setItem('khaltchi_cart', JSON.stringify(cart));
+  showToast('🗑️ تم الحذف');
+  renderCartPage();
+}
+
+function applyCoupon() {
+  const code = document.getElementById('couponInput').value.trim().toUpperCase();
+  const msgEl = document.getElementById('couponMsg');
+  if (!code) { msgEl.textContent = 'أدخل كود الخصم'; msgEl.className = 'coupon-msg error'; return; }
+
+  const cart = readCart();
+  const subtotalCents = cart.reduce((sum, item) => sum + Math.round(item.price * 100) * item.qty, 0);
+  const promos = typeof PROMO_CODES !== 'undefined' ? PROMO_CODES : {};
+  const promo = promos[code];
+
+  if (!promo) {
+    msgEl.textContent = '❌ كود غير صحيح!';
+    msgEl.className = 'coupon-msg error';
+    localStorage.removeItem('khaltchi_coupon');
+  } else {
+    const minimumCents = Math.round(Number(promo.minSubtotal || 0) * 100);
+    if (subtotalCents < minimumCents) {
+      msgEl.textContent = `الحد الأدنى لهذا الكوبون ${money(minimumCents)} د.أ.`;
+      msgEl.className = 'coupon-msg error';
+      localStorage.removeItem('khaltchi_coupon');
+    } else {
+      localStorage.setItem('khaltchi_coupon', code);
+      const cartTotals = getTotals(cart);
+      msgEl.textContent = `✅ ${promo.desc} — خصم ${money(cartTotals.discountCents)} د.أ`;
+      msgEl.className = 'coupon-msg success';
+      showToast('🎉 تم تطبيق الكود!');
+    }
+  }
+  document.getElementById('couponInput').value = localStorage.getItem('khaltchi_coupon') || '';
+  updateSummary(cart);
+}
+
+function placeOrder() {
+  const cart = readCart();
+  if (cart.length === 0) return;
+  const totals = getTotals(cart);
+  const order = {
+    id: `KH-${Date.now()}`,
+    createdAt: new Date().toISOString(),
+    items: cart.map(item => ({ ...item })),
+    coupon: totals.eligible ? totals.code : null,
+    totals: {
+      subtotal: money(totals.subtotalCents),
+      discount: money(totals.discountCents),
+      delivery: money(totals.deliveryCents),
+      total: money(totals.totalCents)
+    }
+  };
+  try {
+    localStorage.setItem('khaltchi_last_order', JSON.stringify(order));
+    localStorage.setItem('khaltchi_cart', '[]');
+    localStorage.removeItem('khaltchi_coupon');
+    localStorage.removeItem('khaltchi_discount');
+  } catch (error) {
+    console.error('تعذر حفظ الطلب:', error);
+    showToast('تعذر حفظ الطلب على هذا الجهاز. لم يتم إفراغ السلة.');
+    return;
+  }
+  document.getElementById('btnPlaceOrder').disabled = true;
+  document.getElementById('btnPlaceOrder').innerHTML = '<i class="fas fa-check"></i> تم حفظ الطلب';
+  showToast('تم حفظ ملخص الطلب محلياً؛ لا يتم إرساله للمطعم.');
+  renderCartPage();
+  startTracker(order);
+}
+
+function startTracker(order) {
+  const container = document.getElementById('orderTrackerContainer');
+  container.classList.add('visible');
+  document.getElementById('trackerOrderSummary').textContent =
+    `طلب تجريبي ${order.id} — الإجمالي المحفوظ: ${order.totals.total} د.أ`;
+
+  const steps = [
+    { title: '✅ حُفظ ملخص الطلب', desc: 'تم الحفظ محلياً على هذا الجهاز فقط', eta: 35, pct: 20 },
+    { title: '👨‍🍳 محاكاة التحضير', desc: 'هذه خطوة تجريبية وليست تحديثاً من المطعم', eta: 28, pct: 40 },
+    { title: '📦 محاكاة التعبئة', desc: 'لا يتم تجهيز أو تعبئة طلب فعلي', eta: 20, pct: 60 },
+    { title: '🏍️ محاكاة التوصيل', desc: 'لا يوجد مندوب أو تحديث موقع فعلي', eta: 10, pct: 80 },
+    { title: '🎉 انتهت المتابعة التجريبية', desc: 'شكراً لزيارتك خلتشي خلتشي', eta: 0, pct: 100 }
+  ];
+
+  let stepIdx = 0;
+  const fill = document.getElementById('trackerProgressFill');
+
+  function doStep() {
+    if (stepIdx >= steps.length) return;
+    const s = steps[stepIdx];
+    document.getElementById('trackerStatusTitle').textContent = s.title;
+    document.getElementById('trackerStatusDesc').textContent = s.desc;
+    document.getElementById('trackerEta').innerHTML = s.eta > 0
+      ? `الوقت المتوقع: <strong>${s.eta} دقيقة</strong>`
+      : `<strong>🎊 تفضل بالاستمتاع!</strong>`;
+    fill.style.width = s.pct + '%';
+
+    // Update nodes
+    for (let i = 1; i <= 5; i++) {
+      const node = document.getElementById('trackerNode' + i);
+      const label = document.getElementById('trackerNodeLabel' + i);
+      node.classList.remove('done', 'active');
+      label.classList.remove('done');
+      if (i <= stepIdx) { node.classList.add('done'); label.classList.add('done'); }
+      else if (i === stepIdx + 1) node.classList.add('active');
+    }
+
+    stepIdx++;
+    if (stepIdx < steps.length) setTimeout(doStep, 4000);
+  }
+
+  setTimeout(doStep, 500);
+}
+
+function updateNavCart() {
+  const cart = readCart();
+  const count = cart.reduce((sum, item) => sum + item.qty, 0);
+  const el = document.getElementById('navCartCount');
+  if (el) el.textContent = count;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toastMsg');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>

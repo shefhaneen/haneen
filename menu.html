@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>قائمة الطعام | خلتشي خلتشي</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@300;400;500;700;800;900&family=Rubik:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/food.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon-wrapper"><i class="fas fa-burger"></i></div>
+        <div class="brand-text">
+          <span class="brand-name"><span>خلتشي</span> خلتشي</span>
+          <span class="brand-slogan">أكل بجنن • طعم لا يُنسى</span>
+        </div>
+      </a>
+      <nav class="nav-menu" id="navMenu">
+        <a href="index.html" class="nav-link"><i class="fas fa-home"></i> الرئيسية</a>
+        <a href="menu.html" class="nav-link active"><i class="fas fa-utensils"></i> القائمة</a>
+        <a href="search.html" class="nav-link"><i class="fas fa-search"></i> بحث</a>
+        <a href="pizza-maker.html" class="nav-link"><i class="fas fa-pizza-slice"></i> صمم بيتزتك</a>
+        <a href="burger-maker.html" class="nav-link"><i class="fas fa-burger"></i> صمم برجرك</a>
+        <a href="cart.html" class="nav-link"><i class="fas fa-bag-shopping"></i> سلة الطلب</a>
+        <a href="offers.html" class="nav-link"><i class="fas fa-tags"></i> العروض</a>
+        <a href="profile.html" class="nav-link"><i class="fas fa-user-circle"></i> الملف الشخصي</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn-sound" id="audioToggle" title="الصوت"><i class="fas fa-volume-up"></i></button>
+        <a href="cart.html" class="nav-cart-btn">
+          <i class="fas fa-shopping-cart"></i><span>السلة</span>
+          <span class="cart-count-badge">0</span>
+        </a>
+        <button class="mobile-toggle-btn" id="mobileNavToggle"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- PAGE HEADER -->
+  <section style="padding: 9rem 1rem 3rem; text-align: center;">
+    <div class="container">
+      <div style="display: inline-flex; align-items: center; gap: 12px; background: rgba(255,183,3,0.15); border: 1px solid rgba(255,183,3,0.3); border-radius: 40px; padding: 6px 20px; margin-bottom: 1.2rem;">
+        <img src="images/chef4.jpg" alt="الشيف حنين عادل" style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid #ffb703;" />
+        <span style="font-weight: 800; color: #ffb703; font-size: 0.9rem;">بإشراف صاحبة ومؤسسة المطعم الشيف حنين عادل 👩‍🍳</span>
+      </div>
+      <h1 style="font-size: 3rem; font-weight: 900; margin-bottom: 1rem;">
+        🍔 قائمة طعام <span class="highlight">خلتشي خلتشي</span>
+      </h1>
+      <p style="color: var(--text-secondary); max-width: 680px; margin: 0 auto; font-size: 1.15rem;">
+        أكثر من 280 صنفاً من الأكلات المحلية والعالمية، تُحضر طازجة يومياً. اختر فئتك أو اطلب أي وجبة على ذوقك!
+      </p>
+    </div>
+  </section>
+
+  <!-- CATEGORY FILTER -->
+  <section style="padding: 0 0 6rem;">
+    <div class="container">
+      <div class="category-filter-bar" id="menuCategoryFilters" aria-label="تصفية القائمة حسب الفئة"></div>
+
+      <div class="menu-tools">
+        <label class="menu-search-field">
+          <span><i class="fas fa-search" aria-hidden="true"></i> ابحث في الأكلات</span>
+          <input id="menuSearchInput" type="search" placeholder="مثال: شاورما، شوربة عدس..." autocomplete="off">
+        </label>
+        <label class="menu-sort-field">
+          <span><i class="fas fa-arrow-down-wide-short" aria-hidden="true"></i> ترتيب النتائج</span>
+          <select id="menuSortSelect">
+            <option value="recommended">الترتيب المقترح</option>
+            <option value="price-asc">السعر: من الأقل للأعلى</option>
+            <option value="price-desc">السعر: من الأعلى للأقل</option>
+            <option value="calories-asc">السعرات: الأقل أولاً</option>
+            <option value="name">الاسم: أ إلى ي</option>
+          </select>
+        </label>
+        <div class="menu-quick-filters" aria-label="خيارات سريعة">
+          <label><input id="menuVegetarianFilter" type="checkbox"> <i class="fas fa-seedling" aria-hidden="true"></i> نباتي</label>
+          <label><input id="menuLightFilter" type="checkbox"> <i class="fas fa-leaf" aria-hidden="true"></i> 500 سعرة أو أقل</label>
+          <button id="clearMenuFilters" type="button"><i class="fas fa-rotate-left" aria-hidden="true"></i> مسح الفلاتر</button>
+        </div>
+        <p class="menu-result-count" id="menuResultCount" role="status" aria-live="polite"></p>
+      </div>
+
+      <div class="menu-grid" id="fullMenuGrid">
+        <!-- Rendered by JS -->
+      </div>
+      <div class="menu-load-more-wrap">
+        <button id="loadMoreMenuItems" type="button" class="btn-primary">
+          <i class="fas fa-chevron-down" aria-hidden="true"></i> عرض المزيد
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUILDER SPOTLIGHT SECTION (RELOCATED FROM HOME) -->
+  <section class="section" id="custom-builders" style="background: linear-gradient(180deg, transparent, rgba(255,87,34,0.06), transparent); padding: 5rem 0;">
+    <div class="container">
+      <div class="section-title">
+        <span class="badge badge-gold"><i class="fas fa-wand-magic-sparkles"></i> صمم وجبتك على ذوقك</span>
+        <h2>أجنحة التصميم التفاعلية الخاصة بـ <span>خلتشي خلتشي</span></h2>
+        <p>إذا لم تجد ما يناسبك في القائمة، اصنع وصفتك الخاصة مكوّناً بمكوّن وتحت إشراف الشيف حنين عادل!</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-top: 2rem;">
+        
+        <!-- PIZZA STUDIO CARD -->
+        <div class="card-3d" style="background: var(--surface-card); border: 1px solid rgba(255,183,3,0.25); border-radius: var(--radius-lg); padding: 2.5rem; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.5);">
+          <div style="position: absolute; top: -30px; left: -30px; width: 140px; height: 140px; background: radial-gradient(circle, rgba(255,183,3,0.15) 0%, transparent 70%);"></div>
+          <div>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+              <span class="badge badge-gold" style="font-size: 0.85rem;"><i class="fas fa-fire"></i> تفاعلي 100%</span>
+              <img src="images/chef2.jpg" alt="الشيف حنين - بيتزا" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid #ffb703;" />
+            </div>
+            <div style="font-size: 3.5rem; margin-bottom: 1rem;">🍕</div>
+            <h3 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.8rem; color: #fff;">ستوديو تحضير البيتزا</h3>
+            <p style="color: var(--text-secondary); line-height: 1.7; font-size: 0.95rem; margin-bottom: 1.5rem;">
+              اختر نوع العجينة (إيطالية رفيعة أو محشية أطراف)، صلصة الطماطم السرية، جبنة الموزاريلا، وأضف الخضار واللحوم على لوحة تفاعلية مباشرة ثم حمّرها في الفرن الحجري!
+            </p>
+            <ul style="list-style: none; padding: 0; margin-bottom: 2rem; color: rgba(255,255,255,0.75); font-size: 0.88rem; display: flex; flex-direction: column; gap: 8px;">
+              <li><i class="fas fa-check-circle" style="color: #ffb703; margin-left: 8px;"></i> كانفاس تفاعلي لإضافة المكونات بالنقر</li>
+              <li><i class="fas fa-check-circle" style="color: #ffb703; margin-left: 8px;"></i> حساب فوري للسعرات الحرارية والسعر</li>
+              <li><i class="fas fa-check-circle" style="color: #ffb703; margin-left: 8px;"></i> تسمية البيتزا باسمك وإرسالها لمطبخ الشيف</li>
+            </ul>
+          </div>
+          <a href="pizza-maker.html" class="btn-primary btn-gold" style="width: 100%; justify-content: center; font-size: 1.05rem; padding: 1rem;">
+            <i class="fas fa-pizza-slice"></i> <span>ابدأ تصميم بيتزتك الآن</span>
+          </a>
+        </div>
+
+        <!-- BURGER LAB CARD -->
+        <div class="card-3d" style="background: var(--surface-card); border: 1px solid rgba(255,87,34,0.3); border-radius: var(--radius-lg); padding: 2.5rem; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.5);">
+          <div style="position: absolute; top: -30px; left: -30px; width: 140px; height: 140px; background: radial-gradient(circle, rgba(255,87,34,0.2) 0%, transparent 70%);"></div>
+          <div>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+              <span class="badge badge-fire" style="font-size: 0.85rem;"><i class="fas fa-layer-group"></i> طبقة بطبقة</span>
+              <img src="images/chef5.jpg" alt="الشيف حنين - برجر" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid #ff5722;" />
+            </div>
+            <div style="font-size: 3.5rem; margin-bottom: 1rem;">🍔</div>
+            <h3 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 0.8rem; color: #fff;">مختبر تركيب البرجر</h3>
+            <p style="color: var(--text-secondary); line-height: 1.7; font-size: 0.95rem; margin-bottom: 1.5rem;">
+              ابنِ برجرك بطبقات ثلاثية الأبعاد: اختر نوع الخبز (بريوش أو سمسم)، نوع شريحة اللحم أو الدجاج المقرمش، كمية الجبن السائل، الصوصات الحارة والباردة، والإضافات الخاصة!
+            </p>
+            <ul style="list-style: none; padding: 0; margin-bottom: 2rem; color: rgba(255,255,255,0.75); font-size: 0.88rem; display: flex; flex-direction: column; gap: 8px;">
+              <li><i class="fas fa-check-circle" style="color: #ff5722; margin-left: 8px;"></i> رؤية الطبقات تسقط بشكل مرئي في الصحن</li>
+              <li><i class="fas fa-check-circle" style="color: #ff5722; margin-left: 8px;"></i> اختيار درجة الاستواء والصلصات التوقيعية</li>
+              <li><i class="fas fa-check-circle" style="color: #ff5722; margin-left: 8px;"></i> إرسال الوصفة مباشرة للشيفة حنين لتحضيرها</li>
+            </ul>
+          </div>
+          <a href="burger-maker.html" class="btn-primary" style="width: 100%; justify-content: center; font-size: 1.05rem; padding: 1rem;">
+            <i class="fas fa-burger"></i> <span>ادخل مختبر البرجر الآن</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <div class="brand-logo" style="margin-bottom: 1.2rem;">
+          <div class="brand-icon-wrapper" style="width:44px;height:44px;"><i class="fas fa-burger" style="color:#fff;font-size:1.3rem;"></i></div>
+          <div class="brand-text"><span class="brand-name"><span>خلتشي</span> خلتشي</span></div>
+        </div>
+        <p style="color: var(--text-secondary); font-size: 0.95rem;">مطعم متخصص بأشهى البرجر والبيتزا بمكونات طازجة.</p>
+      </div>
+      <div class="footer-col">
+        <h4>قائمتنا</h4>
+        <ul class="footer-links">
+          <li><a href="menu.html?cat=burgers"><i class="fas fa-chevron-left"></i> برجر</a></li>
+          <li><a href="menu.html?cat=pizzas"><i class="fas fa-chevron-left"></i> بيتزا</a></li>
+          <li><a href="menu.html?cat=chicken"><i class="fas fa-chevron-left"></i> دجاج</a></li>
+          <li><a href="menu.html?cat=sides"><i class="fas fa-chevron-left"></i> جانبيات</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>خدماتنا</h4>
+        <ul class="footer-links">
+          <li><a href="pizza-maker.html"><i class="fas fa-chevron-left"></i> صمّم بيتزتك</a></li>
+          <li><a href="burger-maker.html"><i class="fas fa-chevron-left"></i> اصنع برجرك</a></li>
+          <li><a href="cart.html"><i class="fas fa-chevron-left"></i> سلة الطلب</a></li>
+          <li><a href="offers.html"><i class="fas fa-chevron-left"></i> العروض</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>تواصل معنا</h4>
+        <p style="color: var(--text-secondary);"><i class="fas fa-phone" style="color: var(--cheddar-gold); margin-left: 0.5rem;"></i> 0796-KHALTCHI</p>
+        <p style="color: var(--text-secondary); margin-top: 0.6rem;"><i class="fas fa-clock" style="color: var(--fresh-green); margin-left: 0.5rem;"></i> 11 ص – 2 ص كل الأيام</p>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© 2026 خلتشي خلتشي 🍔🍕 | صُنع بحب ولحم أنجوس طازج</p>
+    </div>
+  </footer>
+
+  <script src="js/profile-manager.js"></script>
+  <script src="js/food-data.js"></script>
+  <script src="js/food-audio.js"></script>
+  <script src="js/search-engine.js"></script>
+  <script src="js/cart-tracker.js"></script>
+  <script src="js/customizer.js"></script>
+  <script src="js/food-main.js"></script>
+  <script>
+  const MENU_FILTERS = [
+    { id: 'all', label: 'الكل', icon: 'fa-th-large', categories: null },
+    { id: 'burgers', label: 'برغر وسندويشات', icon: 'fa-burger', categories: ['برجر', 'سندويشات'] },
+    { id: 'pizzas', label: 'بيتزا ومعجنات', icon: 'fa-pizza-slice', categories: ['بيتزا', 'معجنات'] },
+    { id: 'chicken', label: 'الدجاج', icon: 'fa-drumstick-bite', categories: ['دجاج'] },
+    { id: 'rice', label: 'الأرز والطبخات', icon: 'fa-bowl-rice', categories: ['أرز وطبخات'] },
+    { id: 'arabic', label: 'أكلات عربية', icon: 'fa-earth-asia', categories: ['أكلات أردنية وعربية'] },
+    { id: 'grills', label: 'المشاوي', icon: 'fa-fire', categories: ['مشاوي'] },
+    { id: 'shawarma', label: 'الشاورما', icon: 'fa-utensils', categories: ['شاورما'] },
+    { id: 'sides', label: 'مقبلات وسناكات', icon: 'fa-utensils', categories: ['مقبلات', 'سناكات'] },
+    { id: 'mexican', label: 'مكسيكي', icon: 'fa-pepper-hot', categories: ['مكسيكي'] },
+    { id: 'italian', label: 'إيطالي وباستا', icon: 'fa-utensils', categories: ['إيطالي'] },
+    { id: 'asian', label: 'آسيوي', icon: 'fa-bowl-food', categories: ['آسيوي'] },
+    { id: 'seafood', label: 'مأكولات بحرية', icon: 'fa-fish', categories: ['مأكولات بحرية'] },
+    { id: 'world', label: 'طبخات عالمية', icon: 'fa-earth-americas', categories: ['طبخات عالمية'] },
+    { id: 'sweets', label: 'حلويات', icon: 'fa-cookie-bite', categories: ['حلويات'] },
+    { id: 'drinks', label: 'مشروبات', icon: 'fa-glass-water', categories: ['مشروبات'] },
+    { id: 'salads', label: 'سلطات', icon: 'fa-leaf', categories: ['سلطات'] },
+    { id: 'soups', label: 'شوربات', icon: 'fa-mug-hot', categories: ['شوربات'] },
+    { id: 'breakfast', label: 'فطور', icon: 'fa-egg', categories: ['فطور'] },
+    { id: 'vegetarian', label: 'أطباق نباتية', icon: 'fa-seedling', categories: ['نباتي'] },
+  ];
+  const LEGACY_CATEGORY_ALIASES = { pasta: 'italian' };
+  const MENU_PAGE_SIZE = 24;
+  let activeMenuCategory = 'all';
+  let activeMenuPage = 1;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const requestedCategory = LEGACY_CATEGORY_ALIASES[urlParams.get('cat')] || urlParams.get('cat') || 'all';
+    activeMenuCategory = MENU_FILTERS.some(filter => filter.id === requestedCategory) ? requestedCategory : 'all';
+    renderMenuFilters(activeMenuCategory);
+    document.getElementById('menuSearchInput').addEventListener('input', resetMenuPage);
+    document.getElementById('menuSortSelect').addEventListener('change', resetMenuPage);
+    document.getElementById('menuVegetarianFilter').addEventListener('change', resetMenuPage);
+    document.getElementById('menuLightFilter').addEventListener('change', resetMenuPage);
+    document.getElementById('loadMoreMenuItems').addEventListener('click', () => {
+      activeMenuPage++;
+      renderMenuCategory(activeMenuCategory);
+    });
+    document.getElementById('clearMenuFilters').addEventListener('click', () => {
+      document.getElementById('menuSearchInput').value = '';
+      document.getElementById('menuSortSelect').value = 'recommended';
+      document.getElementById('menuVegetarianFilter').checked = false;
+      document.getElementById('menuLightFilter').checked = false;
+      resetMenuPage();
+      document.getElementById('menuSearchInput').focus();
+    });
+    renderMenuCategory(activeMenuCategory);
+  });
+
+  function renderMenuFilters(activeCategory) {
+    const container = document.getElementById('menuCategoryFilters');
+    container.innerHTML = '';
+    MENU_FILTERS.forEach(filter => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = `cat-btn${filter.id === activeCategory ? ' active' : ''}`;
+      button.dataset.category = filter.id;
+      button.innerHTML = `<i class="fas ${filter.icon}"></i> ${filter.label}`;
+      button.addEventListener('click', () => {
+        activeMenuCategory = filter.id;
+        activeMenuPage = 1;
+        renderMenuFilters(filter.id);
+        renderMenuCategory(filter.id);
+      });
+      container.appendChild(button);
+    });
+  }
+
+  function renderMenuCategory(cat) {
+    const grid = document.getElementById('fullMenuGrid');
+    const loadMoreButton = document.getElementById('loadMoreMenuItems');
+    const filter = MENU_FILTERS.find(item => item.id === cat) || MENU_FILTERS[0];
+    const categoryItems = filter.categories
+      ? SEARCH_DB.filter(item => filter.categories.includes(item.category))
+      : SEARCH_DB;
+    const query = normalizeMenuText(document.getElementById('menuSearchInput').value.trim());
+    const vegetarianOnly = document.getElementById('menuVegetarianFilter').checked;
+    const lightOnly = document.getElementById('menuLightFilter').checked;
+    const sortBy = document.getElementById('menuSortSelect').value;
+    let items = categoryItems.filter(item => {
+      const searchableText = normalizeMenuText([
+        item.name, item.nameEn, item.category, item.desc, ...(item.tags || [])
+      ].join(' '));
+      const matchesQuery = !query || searchableText.includes(query);
+      const matchesVegetarian = !vegetarianOnly || item.category === 'نباتي' || (item.tags || []).includes('نباتي');
+      const matchesCalories = !lightOnly || (Number.isFinite(Number(item.cal)) && Number(item.cal) <= 500);
+      return matchesQuery && matchesVegetarian && matchesCalories;
+    });
+
+    if (sortBy === 'price-asc') items.sort((a, b) => a.price - b.price);
+    if (sortBy === 'price-desc') items.sort((a, b) => b.price - a.price);
+    if (sortBy === 'calories-asc') items.sort((a, b) => a.cal - b.cal);
+    if (sortBy === 'name') items.sort((a, b) => a.name.localeCompare(b.name, 'ar'));
+
+    const visibleItems = items.slice(0, activeMenuPage * MENU_PAGE_SIZE);
+    grid.innerHTML = '';
+    document.getElementById('menuResultCount').textContent =
+      `عرض ${visibleItems.length} من ${items.length} صنف`;
+    loadMoreButton.hidden = visibleItems.length >= items.length;
+    if (!items.length) {
+      grid.innerHTML = '<p style="color:rgba(255,255,255,.65);text-align:center;grid-column:1/-1;padding:40px;">ما لقينا أكلات مطابقة. جرّب كلمة ثانية أو امسح الفلاتر.</p>';
+      return;
+    }
+
+    visibleItems.forEach(item => {
+      const colors = CAT_COLORS[item.category] || ['#555','#777'];
+      const card = document.createElement('div');
+      card.style.cssText = 'background:#151c28;border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.07);transition:.35s;cursor:pointer;';
+      card.onmouseenter = () => { card.style.transform = 'translateY(-6px)'; card.style.boxShadow = '0 18px 45px rgba(0,0,0,.55)'; card.style.borderColor = 'rgba(255,183,3,.2)'; };
+      card.onmouseleave = () => { card.style.transform = ''; card.style.boxShadow = ''; card.style.borderColor = 'rgba(255,255,255,.07)'; };
+
+      card.innerHTML = `
+        <div style="position:relative;height:180px;overflow:hidden;background:#1e2535;" onclick="openMenuModal('${item.id}')">
+          <img src="${item.img}" alt="${item.name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;transition:.5s;"
+            onerror="this.style.display='none';this.nextElementSibling.style.opacity='1'"
+            onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform=''"/>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:3.5rem;opacity:0;transition:.3s;">${item.emoji}</div>
+          <span style="position:absolute;top:9px;right:9px;background:${colors[0]}bb;color:#fff;padding:3px 10px;border-radius:14px;font-size:.68rem;font-weight:700;backdrop-filter:blur(8px);">${item.category}</span>
+          <span style="position:absolute;bottom:9px;left:9px;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);border-radius:12px;padding:4px 11px;font-size:.88rem;font-weight:900;color:#ffb703;border:1px solid rgba(255,183,3,.2);">${item.price.toFixed(2)} د.أ</span>
+        </div>
+        <div style="padding:13px 15px 15px;">
+          <div style="font-size:.98rem;font-weight:800;margin-bottom:4px;">${item.name}</div>
+          <div style="font-size:.74rem;color:rgba(255,255,255,.5);margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.5;">${item.desc}</div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:11px;font-size:.7rem;color:rgba(255,255,255,.4);">
+            <span>🔥 ${item.cal} سعرة</span><span>•</span><span>⭐ 4.8</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
+            <button onclick="orderNormalItem(${JSON.stringify(item).replace(/"/g, '&quot;')})" style="background:linear-gradient(135deg,#d90429,#ff5722);color:#fff;border:none;padding:9px 7px;border-radius:11px;font-family:'Cairo',sans-serif;font-weight:700;font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:.3s;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform=''">
+              <i class="fas fa-cart-plus"></i> طلب عادي
+            </button>
+            <button onclick="openCustomizeModal(${JSON.stringify(item).replace(/"/g, '&quot;')})" style="background:rgba(255,183,3,.12);color:#ffb703;border:1px solid rgba(255,183,3,.35);padding:9px 7px;border-radius:11px;font-family:'Cairo',sans-serif;font-weight:700;font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:.3s;" onmouseover="this.style.background='rgba(255,183,3,.22)'" onmouseout="this.style.background='rgba(255,183,3,.12)'">
+              <i class="fas fa-magic"></i> على ذوقك ✨
+            </button>
+          </div>
+        </div>`;
+      grid.appendChild(card);
+    });
+  }
+
+  function resetMenuPage() {
+    activeMenuPage = 1;
+    renderMenuCategory(activeMenuCategory);
+  }
+
+  function normalizeMenuText(value) {
+    return value.toLocaleLowerCase('ar')
+      .normalize('NFD')
+      .replace(/[\u064B-\u065F\u0670]/g, '')
+      .replace(/[أإآ]/g, 'ا')
+      .replace(/ى/g, 'ي');
+  }
+
+  function menuAddToCart(id) {
+    const item = SEARCH_DB.find(i => i.id === id);
+    if (!item) return;
+    addKhaltchiCartItem(item);
+  }
+
+  function openMenuModal(id) {
+    window.location.href = 'search.html?q=' + encodeURIComponent(SEARCH_DB.find(i=>i.id===id)?.name || '');
+  }
+  </script>
+</body>
+</html>

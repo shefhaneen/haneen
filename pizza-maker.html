@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🍕 صمّم بيتزتك | خلتشي خلتشي</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@300;400;500;700;800;900&family=Rubik:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/food.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon-wrapper"><i class="fas fa-burger"></i></div>
+        <div class="brand-text">
+          <span class="brand-name"><span>خلتشي</span> خلتشي</span>
+          <span class="brand-slogan">أكل بجنن • طعم لا يُنسى</span>
+        </div>
+      </a>
+      <nav class="nav-menu" id="navMenu">
+        <a href="index.html" class="nav-link"><i class="fas fa-home"></i> الرئيسية</a>
+        <a href="menu.html" class="nav-link"><i class="fas fa-utensils"></i> القائمة</a>
+        <a href="search.html" class="nav-link"><i class="fas fa-search"></i> بحث</a>
+        <a href="pizza-maker.html" class="nav-link active"><i class="fas fa-pizza-slice"></i> صمم بيتزتك</a>
+        <a href="burger-maker.html" class="nav-link"><i class="fas fa-burger"></i> صمم برجرك</a>
+        <a href="cart.html" class="nav-link"><i class="fas fa-bag-shopping"></i> سلة الطلب</a>
+        <a href="offers.html" class="nav-link"><i class="fas fa-tags"></i> العروض</a>
+        <a href="profile.html" class="nav-link"><i class="fas fa-user-circle"></i> الملف الشخصي</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn-sound" id="audioToggle" title="الصوت"><i class="fas fa-volume-up"></i></button>
+        <a href="cart.html" class="nav-cart-btn">
+          <i class="fas fa-shopping-cart"></i><span>السلة</span>
+          <span class="cart-count-badge">0</span>
+        </a>
+        <button class="mobile-toggle-btn" id="mobileNavToggle"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- PIZZA STUDIO -->
+  <div class="pizza-studio-container">
+    <div class="container">
+      <div style="text-align:center; margin-bottom: 3rem;">
+        <div style="display:inline-flex; align-items:center; gap:10px; background:rgba(255,183,3,.15); border:1px solid rgba(255,183,3,.3); border-radius:30px; padding:6px 18px; margin-bottom:14px;">
+          <img src="images/chef2.jpg" alt="الشيف حنين عادل" style="width:36px; height:36px; border-radius:50%; object-fit:cover; border:2px solid #ffb703;" />
+          <span style="font-size:0.88rem; font-weight:800; color:#ffb703;">مطبخ البيتزا بإشراف الشيف حنين عادل 👩‍🍳</span>
+        </div>
+        <br/>
+        <span class="badge badge-fire" style="font-size:1rem; margin-bottom:0.8rem;"><i class="fas fa-wand-magic-sparkles"></i> بيتزا ستوديو التفاعلي</span>
+        <h1 style="font-size: 3rem; font-weight: 900; margin-bottom: 0.8rem;">
+          🍕 صمّم <span class="highlight">بيتزتك الخاصة</span> من الصفر
+        </h1>
+        <p style="color: var(--text-secondary); font-size: 1.1rem;">اختر كل مكوّن واضغط على الكانفاس لإضافة الإضافات، ثم حمّر في الفرن!</p>
+      </div>
+
+      <div class="pizza-studio-layout">
+
+        <!-- LEFT: Canvas Stage -->
+        <div class="pizza-canvas-stage">
+          <h3 style="margin-bottom: 1.5rem; font-size: 1.4rem;"><i class="fas fa-eye" style="color: var(--cheddar-gold);"></i> معاينة البيتزا مباشرة</h3>
+
+          <div class="pizza-pan-wrapper" id="pizzaPanWrapper">
+            <canvas id="pizzaCanvas"></canvas>
+          </div>
+
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+            <i class="fas fa-hand-pointer" style="color: var(--cheddar-gold);"></i>
+            اسحب البيتزا لتدويرها | انقر لإضافة إضافة عشوائية
+          </p>
+
+          <div class="pizza-stage-telemetry">
+            <div class="pizza-tele-item">
+              <span class="pizza-tele-label">السعر</span>
+              <span class="pizza-tele-val" id="studioPizzaPrice">6.00 د.أ</span>
+            </div>
+            <div class="pizza-tele-item">
+              <span class="pizza-tele-label">السعرات</span>
+              <span class="pizza-tele-val" id="studioPizzaCalories">0</span>
+            </div>
+            <div class="pizza-tele-item">
+              <span class="pizza-tele-label">الإضافات</span>
+              <span class="pizza-tele-val" id="studioToppingCount">0</span>
+            </div>
+          </div>
+
+          <div class="pizza-actions-bar">
+            <button class="btn-primary" id="btnBakePizza" style="flex:1" onclick="pizzaStudio.bakePizza()">
+              <i class="fas fa-fire"></i> <span>تحمير في الفرن الحجري</span>
+            </button>
+            <button class="btn-primary btn-gold" onclick="pizzaStudio.addCustomPizzaToCart()" style="flex: 0.8;">
+              <i class="fas fa-cart-plus"></i> <span>أضف للطلب</span>
+            </button>
+          </div>
+
+          <div style="margin-top: 1.2rem; width: 100%;">
+            <label style="display:block; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem;">اسم بيتزتك الخاصة:</label>
+            <input type="text" id="customPizzaNameInput" placeholder="مثال: بيتزا حارة ملوكي..."
+              style="width:100%; background: rgba(16,18,24,0.8); border: 1px solid var(--border-subtle); color: #fff; padding: 0.75rem 1rem; border-radius: var(--radius-sm); font-family: var(--font-arabic); font-size: 1rem;"
+              oninput="pizzaStudio.customPizzaName = this.value">
+          </div>
+        </div>
+
+        <!-- RIGHT: Controls -->
+        <div class="pizza-controls-panel">
+
+          <!-- STEP 1: CRUST -->
+          <div class="studio-step-box">
+            <div class="studio-step-header">
+              <div class="studio-step-title">
+                <span class="step-num-badge">1</span>
+                <span>اختر نوع العجينة</span>
+              </div>
+            </div>
+            <div class="options-grid-chips" id="crustOptions"></div>
+          </div>
+
+          <!-- STEP 2: SAUCE -->
+          <div class="studio-step-box">
+            <div class="studio-step-header">
+              <div class="studio-step-title">
+                <span class="step-num-badge">2</span>
+                <span>اختر الصلصة</span>
+              </div>
+            </div>
+            <div class="options-grid-chips" id="sauceOptions"></div>
+          </div>
+
+          <!-- STEP 3: CHEESE -->
+          <div class="studio-step-box">
+            <div class="studio-step-header">
+              <div class="studio-step-title">
+                <span class="step-num-badge">3</span>
+                <span>اختر الجبنة</span>
+              </div>
+            </div>
+            <div class="options-grid-chips" id="cheeseOptions"></div>
+          </div>
+
+          <!-- STEP 4: TOPPINGS -->
+          <div class="studio-step-box">
+            <div class="studio-step-header">
+              <div class="studio-step-title">
+                <span class="step-num-badge">4</span>
+                <span>اختر الإضافات (متعددة)</span>
+              </div>
+              <span style="color: var(--text-muted); font-size: 0.85rem;">اضغط أكثر من واحدة!</span>
+            </div>
+            <div class="toppings-selector-grid" id="toppingsOptions"></div>
+          </div>
+
+          <!-- STEP 5: SLICING -->
+          <div class="studio-step-box">
+            <div class="studio-step-header">
+              <div class="studio-step-title">
+                <span class="step-num-badge">5</span>
+                <span>كيف تقطع البيتزا؟</span>
+              </div>
+            </div>
+            <div class="options-grid-chips" style="grid-template-columns: repeat(4, 1fr);">
+              <div class="option-chip" onclick="pizzaStudio.setSlices(0); setActiveSlice(this)">
+                <span class="option-chip-emoji">🍕</span>
+                <span class="option-chip-name">بدون تقطيع</span>
+              </div>
+              <div class="option-chip active" onclick="pizzaStudio.setSlices(6); setActiveSlice(this)">
+                <span class="option-chip-emoji">✂️</span>
+                <span class="option-chip-name">6 قطع</span>
+              </div>
+              <div class="option-chip" onclick="pizzaStudio.setSlices(8); setActiveSlice(this)">
+                <span class="option-chip-emoji">✂️</span>
+                <span class="option-chip-name">8 قطع</span>
+              </div>
+              <div class="option-chip" onclick="pizzaStudio.setSlices(12); setActiveSlice(this)">
+                <span class="option-chip-emoji">✂️</span>
+                <span class="option-chip-name">12 قطعة</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <div class="brand-logo" style="margin-bottom:1.2rem;">
+          <div class="brand-icon-wrapper" style="width:44px;height:44px;"><i class="fas fa-burger" style="color:#fff;font-size:1.3rem;"></i></div>
+          <div class="brand-text"><span class="brand-name"><span>خلتشي</span> خلتشي</span></div>
+        </div>
+        <p style="color: var(--text-secondary);">صمّم بيتزتك بكل الحب ومكوناتك المفضلة!</p>
+      </div>
+      <div class="footer-col">
+        <h4>قائمتنا</h4>
+        <ul class="footer-links">
+          <li><a href="menu.html"><i class="fas fa-chevron-left"></i> كل القائمة</a></li>
+          <li><a href="burger-maker.html"><i class="fas fa-chevron-left"></i> صمّم برجرك</a></li>
+          <li><a href="cart.html"><i class="fas fa-chevron-left"></i> سلة الطلب</a></li>
+          <li><a href="offers.html"><i class="fas fa-chevron-left"></i> العروض</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>نصائح البيتزا</h4>
+        <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.8;">
+          <i class="fas fa-lightbulb" style="color: var(--cheddar-gold);"></i> جرب عجينة الشيكاغو مع صلصة البيستو وأجبان أربعة للحصول على تجربة لا تُنسى!
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>تواصل</h4>
+        <p style="color: var(--text-secondary);"><i class="fas fa-phone" style="color: var(--cheddar-gold); margin-left:0.5rem;"></i> 0796-KHALTCHI</p>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© 2026 خلتشي خلتشي 🍕 | البيتزا تُصنع بحب وعجينة حجرية حقيقية</p>
+    </div>
+  </footer>
+
+  <script src="js/profile-manager.js"></script>
+  <script src="js/food-data.js"></script>
+  <script src="js/food-audio.js"></script>
+  <script src="js/cart-tracker.js"></script>
+  <script src="js/pizza-engine.js"></script>
+  <script src="js/customizer.js"></script>
+  <script src="js/food-main.js"></script>
+  <script>
+    let pizzaStudio;
+
+    function setActiveSlice(el) {
+      el.closest('.options-grid-chips').querySelectorAll('.option-chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      pizzaStudio = new PizzaStudioEngine('pizzaCanvas');
+
+      // Render CRUST options
+      const crustContainer = document.getElementById('crustOptions');
+      PIZZA_STUDIO_DATA.crusts.forEach((crust, i) => {
+        const div = document.createElement('div');
+        div.className = `option-chip ${i === 0 ? 'active' : ''}`;
+        div.innerHTML = `
+          <span class="option-chip-emoji">${crust.emoji}</span>
+          <span class="option-chip-name">${crust.name}</span>
+          <span class="option-chip-price">${crust.price > 0 ? '+' + crust.price.toFixed(2) + ' د.أ' : 'مجاناً'}</span>
+        `;
+        div.onclick = () => {
+          crustContainer.querySelectorAll('.option-chip').forEach(c => c.classList.remove('active'));
+          div.classList.add('active');
+          pizzaStudio.setCrust(crust.id);
+        };
+        crustContainer.appendChild(div);
+      });
+
+      // Render SAUCE options
+      const sauceContainer = document.getElementById('sauceOptions');
+      PIZZA_STUDIO_DATA.sauces.forEach((sauce, i) => {
+        const div = document.createElement('div');
+        div.className = `option-chip ${i === 0 ? 'active' : ''}`;
+        div.innerHTML = `
+          <span class="option-chip-emoji">${sauce.emoji}</span>
+          <span class="option-chip-name">${sauce.name}</span>
+          <span class="option-chip-price">${sauce.price > 0 ? '+' + sauce.price.toFixed(2) + ' د.أ' : 'مجاناً'}</span>
+        `;
+        div.onclick = () => {
+          sauceContainer.querySelectorAll('.option-chip').forEach(c => c.classList.remove('active'));
+          div.classList.add('active');
+          pizzaStudio.setSauce(sauce.id);
+        };
+        sauceContainer.appendChild(div);
+      });
+
+      // Render CHEESE options
+      const cheeseContainer = document.getElementById('cheeseOptions');
+      PIZZA_STUDIO_DATA.cheeses.forEach((cheese, i) => {
+        const div = document.createElement('div');
+        div.className = `option-chip ${i === 0 ? 'active' : ''}`;
+        div.innerHTML = `
+          <span class="option-chip-emoji">${cheese.emoji}</span>
+          <span class="option-chip-name">${cheese.name}</span>
+          <span class="option-chip-price">+${cheese.price.toFixed(2)} د.أ</span>
+        `;
+        div.onclick = () => {
+          cheeseContainer.querySelectorAll('.option-chip').forEach(c => c.classList.remove('active'));
+          div.classList.add('active');
+          pizzaStudio.setCheese(cheese.id);
+        };
+        cheeseContainer.appendChild(div);
+      });
+
+      // Render TOPPINGS
+      const toppingsContainer = document.getElementById('toppingsOptions');
+      PIZZA_STUDIO_DATA.toppings.forEach(top => {
+        const isDefault = pizzaStudio.selectedToppings.has(top.id);
+        const div = document.createElement('div');
+        div.className = `topping-toggle-card ${isDefault ? 'selected' : ''}`;
+        div.innerHTML = `
+          <span class="topping-emoji">${top.emoji}</span>
+          <span class="topping-name">${top.name}</span>
+          <span class="topping-extra-price">+${top.price.toFixed(2)} د.أ</span>
+        `;
+        div.onclick = () => {
+          div.classList.toggle('selected');
+          pizzaStudio.toggleTopping(top.id);
+        };
+        toppingsContainer.appendChild(div);
+      });
+
+      pizzaStudio.updateTelemetry();
+    });
+  </script>
+</body>
+</html>

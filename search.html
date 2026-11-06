@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>بحث عن طبخة – خلتشي خلتشي</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="css/food.css"/>
+  <style>
+    :root{--red:#d90429;--orange:#ff5722;--gold:#ffb703;--dark:#0d1117;--dark2:#161b25;--dark3:#1e2535;--card-bg:#151c28;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--dark);color:#fff;font-family:'Cairo',sans-serif;overflow-x:hidden;min-height:100vh;}
+
+    /* ===== NAVBAR ===== */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:999;padding:12px 28px;display:flex;align-items:center;justify-content:space-between;background:rgba(13,17,23,.96);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,183,3,.12);}
+    .nav-brand{font-size:1.5rem;font-weight:900;color:#fff;text-decoration:none;display:flex;align-items:center;gap:8px;}
+    .nav-brand .logo-emoji{font-size:1.4rem;}
+    .nav-brand .gold{color:var(--gold);}
+    .nav-links{display:flex;gap:4px;list-style:none;}
+    .nav-links a{color:rgba(255,255,255,.75);text-decoration:none;font-weight:600;font-size:.85rem;padding:7px 13px;border-radius:24px;transition:.25s;}
+    .nav-links a:hover,.nav-links a.active{color:var(--gold);background:rgba(255,183,3,.1);}
+    .nav-right{display:flex;align-items:center;gap:10px;}
+    .nav-cart{background:linear-gradient(135deg,var(--red),var(--orange));color:#fff;padding:9px 20px;border-radius:24px;text-decoration:none;font-weight:700;font-size:.85rem;display:flex;align-items:center;gap:7px;transition:.3s;}
+    .nav-cart:hover{transform:scale(1.04);box-shadow:0 4px 20px rgba(217,4,41,.4);}
+    .cart-badge{background:#fff;color:var(--red);border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:900;}
+
+    /* ===== SEARCH HERO ===== */
+    .search-hero{margin-top:64px;padding:56px 24px 44px;background:linear-gradient(160deg,#0d1117 0%,#1a0a00 45%,#0d1117 100%);position:relative;overflow:hidden;text-align:center;}
+    .search-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(255,183,3,.06) 0%,transparent 70%);}
+    .floating-foods{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+    .floating-food{position:absolute;font-size:2.5rem;opacity:.06;animation:floatRandom var(--dur,8s) ease-in-out infinite var(--delay,0s);}
+    @keyframes floatRandom{0%,100%{transform:translateY(0) rotate(0deg);}33%{transform:translateY(-20px) rotate(10deg);}66%{transform:translateY(10px) rotate(-8deg);}}
+    .search-hero h1{position:relative;font-size:clamp(2rem,5vw,3.2rem);font-weight:900;margin-bottom:10px;}
+    .search-hero h1 em{color:var(--gold);font-style:normal;position:relative;}
+    .search-hero h1 em::after{content:'✨';font-size:.45em;position:absolute;top:-8px;right:-16px;animation:twinkle 2s ease-in-out infinite;}
+    @keyframes twinkle{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(1.4);}}
+    .search-hero p{position:relative;color:rgba(255,255,255,.6);font-size:1rem;margin-bottom:30px;}
+
+    /* SEARCH BAR */
+    .search-wrap{position:relative;max-width:580px;margin:0 auto 20px;}
+    .search-input{width:100%;background:rgba(255,255,255,.07);border:2px solid rgba(255,183,3,.25);border-radius:50px;padding:16px 65px 16px 22px;color:#fff;font-family:'Cairo',sans-serif;font-size:1rem;outline:none;transition:.35s;caret-color:var(--gold);}
+    .search-input::placeholder{color:rgba(255,255,255,.35);}
+    .search-input:focus{border-color:var(--gold);background:rgba(255,183,3,.05);box-shadow:0 0 0 4px rgba(255,183,3,.12);}
+    .search-btn{position:absolute;left:7px;top:50%;transform:translateY(-50%);background:linear-gradient(135deg,var(--red),var(--orange));border:none;border-radius:40px;padding:9px 20px;color:#fff;font-family:'Cairo',sans-serif;font-weight:700;cursor:pointer;font-size:.88rem;display:flex;align-items:center;gap:5px;transition:.3s;}
+    .search-btn:hover{transform:translateY(-50%) scale(1.05);}
+
+    /* QUICK TAGS */
+    .quick-tags{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;position:relative;}
+    .qtag{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:6px 14px;font-size:.8rem;cursor:pointer;transition:.25s;color:rgba(255,255,255,.65);}
+    .qtag:hover,.qtag.active{background:rgba(255,183,3,.14);border-color:var(--gold);color:var(--gold);}
+
+    /* ===== MAIN CONTENT ===== */
+    .content{max-width:1240px;margin:0 auto;padding:36px 20px 60px;}
+
+    /* SECTION HEADER */
+    .sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px;}
+    .sec-head h2{font-size:1.15rem;font-weight:800;display:flex;align-items:center;gap:8px;}
+    .sec-head h2 .gold{color:var(--gold);}
+    .results-pill{background:var(--dark3);border-radius:20px;padding:5px 14px;font-size:.8rem;color:rgba(255,255,255,.5);}
+
+    /* CATEGORIES CHIPS */
+    .cats-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:36px;}
+    .cat-chip{background:var(--dark3);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:12px 18px;text-align:center;cursor:pointer;transition:.3s;min-width:85px;}
+    .cat-chip:hover{border-color:rgba(255,183,3,.4);transform:translateY(-3px);}
+    .cat-chip .ce{font-size:1.6rem;display:block;margin-bottom:4px;}
+    .cat-chip .cn{font-size:.72rem;font-weight:700;color:rgba(255,255,255,.65);}
+
+    /* ===== FOOD CARDS GRID ===== */
+    .food-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px;}
+
+    /* FOOD CARD */
+    .food-card{background:var(--card-bg);border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.06);transition:.35s;cursor:pointer;position:relative;}
+    .food-card:hover{transform:translateY(-7px);box-shadow:0 20px 50px rgba(0,0,0,.55);border-color:rgba(255,183,3,.18);}
+
+    /* IMAGE */
+    .food-card-img{position:relative;height:190px;overflow:hidden;background:var(--dark3);}
+    .food-card-img img{width:100%;height:100%;object-fit:cover;display:block;transition:.5s;}
+    .food-card:hover .food-card-img img{transform:scale(1.08);}
+    .img-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:4rem;opacity:0;transition:.3s;}
+    .food-card-img img.errored{opacity:0;}
+    .food-card-img img.errored + .img-fallback,.food-card-img img.loading + .img-fallback{opacity:1;}
+    .cat-badge{position:absolute;top:10px;right:10px;padding:4px 11px;border-radius:16px;font-size:.68rem;font-weight:700;backdrop-filter:blur(8px);}
+    .price-tag{position:absolute;bottom:10px;left:10px;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);border-radius:14px;padding:5px 12px;font-size:.9rem;font-weight:900;color:var(--gold);border:1px solid rgba(255,183,3,.2);}
+
+    /* BODY */
+    .food-card-body{padding:14px 16px 16px;}
+    .food-card-name{font-size:1rem;font-weight:800;margin-bottom:4px;line-height:1.3;}
+    .food-card-desc{font-size:.75rem;color:rgba(255,255,255,.52);margin-bottom:12px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+    .food-card-meta{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:.72rem;color:rgba(255,255,255,.4);}
+    .food-card-meta i{color:var(--orange);}
+
+    /* ACTION BUTTONS */
+    .food-card-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+    .btn-normal{background:linear-gradient(135deg,var(--red),var(--orange));color:#fff;border:none;padding:10px 8px;border-radius:12px;font-family:'Cairo',sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;transition:.3s;display:flex;align-items:center;justify-content:center;gap:5px;}
+    .btn-normal:hover{transform:scale(1.04);box-shadow:0 6px 20px rgba(217,4,41,.4);}
+    .btn-custom{background:rgba(255,183,3,.1);color:var(--gold);border:1px solid rgba(255,183,3,.3);padding:10px 8px;border-radius:12px;font-family:'Cairo',sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;transition:.3s;display:flex;align-items:center;justify-content:center;gap:5px;}
+    .btn-custom:hover{background:rgba(255,183,3,.2);border-color:var(--gold);}
+    /* Single button when no customization */
+    .food-card-actions.single .btn-normal{grid-column:1/-1;border-radius:12px;}
+
+    /* EMPTY STATE */
+    .empty-state{grid-column:1/-1;text-align:center;padding:70px 20px;color:rgba(255,255,255,.3);}
+    .empty-state .big{font-size:4rem;display:block;margin-bottom:14px;animation:wobble 1.2s ease-in-out infinite alternate;}
+    @keyframes wobble{from{transform:rotate(-6deg);}to{transform:rotate(6deg);}}
+    .empty-state h3{font-size:1.3rem;font-weight:800;margin-bottom:8px;color:rgba(255,255,255,.5);}
+    .empty-state p{font-size:.9rem;}
+
+    /* ===== CHEF SECTION ===== */
+    .chef-section{background:linear-gradient(135deg,var(--dark2) 0%,#1a0a00 100%);padding:60px 24px;margin-top:0;}
+    .chef-inner{max-width:1200px;margin:0 auto;}
+    .chef-title{text-align:center;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;margin-bottom:8px;}
+    .chef-title .gold{color:var(--gold);}
+    .chef-sub{text-align:center;color:rgba(255,255,255,.5);font-size:.95rem;margin-bottom:36px;}
+    .chef-grid{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:auto auto;gap:14px;max-height:600px;}
+    @media(max-width:800px){.chef-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto;max-height:none;}}
+    @media(max-width:500px){.chef-grid{grid-template-columns:1fr;}}
+    .chef-card{border-radius:18px;overflow:hidden;position:relative;transition:.4s;}
+    .chef-card:hover{transform:scale(1.03);box-shadow:0 20px 50px rgba(0,0,0,.7);}
+    .chef-card img{width:100%;height:100%;object-fit:cover;display:block;transition:.5s;}
+    .chef-card:hover img{transform:scale(1.08);}
+    .chef-card-info{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(0,0,0,.92) 0%,transparent 100%);padding:20px 14px 14px;}
+    .chef-card-name{font-weight:800;font-size:.95rem;}
+    .chef-card-role{font-size:.72rem;color:var(--gold);margin-top:2px;}
+    .chef-card-stars{font-size:.7rem;color:var(--gold);margin-top:3px;}
+    /* Featured card: row-span 2 */
+    .chef-card.featured{grid-row:1/3;min-height:400px;}
+    .chef-card:not(.featured){min-height:180px;}
+    @media(max-width:800px){.chef-card.featured{grid-row:auto;min-height:240px;}.chef-card:not(.featured){min-height:200px;}}
+
+    /* ===== DETAIL MODAL ===== */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:10000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.3s;padding:16px;}
+    .modal-overlay.open{opacity:1;pointer-events:all;}
+    .modal-box{background:var(--dark2);border-radius:24px;max-width:520px;width:100%;border:1px solid rgba(255,183,3,.18);transform:scale(.9) translateY(20px);transition:.35s cubic-bezier(.34,1.56,.64,1);overflow:hidden;position:relative;}
+    .modal-overlay.open .modal-box{transform:scale(1) translateY(0);}
+    .modal-img-wrap{height:220px;overflow:hidden;position:relative;}
+    .modal-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;}
+    .modal-img-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,transparent 60%);}
+    .modal-price-big{position:absolute;bottom:14px;right:16px;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);border-radius:14px;padding:6px 14px;font-size:1.1rem;font-weight:900;color:var(--gold);}
+    .modal-close{position:absolute;top:12px;left:12px;background:rgba(0,0,0,.5);border:none;border-radius:50%;width:34px;height:34px;color:rgba(255,255,255,.8);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;backdrop-filter:blur(8px);}
+    .modal-close:hover{background:rgba(217,4,41,.8);color:#fff;}
+    .modal-body{padding:22px 24px;}
+    .modal-cat{font-size:.75rem;color:rgba(255,255,255,.45);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+    .modal-name{font-size:1.5rem;font-weight:900;margin-bottom:10px;}
+    .modal-desc-box{background:var(--dark3);border-radius:12px;padding:14px;font-size:.88rem;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:18px;}
+    .modal-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+    .modal-stat{background:var(--dark3);border-radius:12px;padding:12px;text-align:center;}
+    .modal-stat-val{font-size:1.2rem;font-weight:900;color:var(--gold);display:block;}
+    .modal-stat-label{font-size:.68rem;color:rgba(255,255,255,.4);display:block;margin-top:2px;}
+    .modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    .modal-btn-order{background:linear-gradient(135deg,var(--red),var(--orange));color:#fff;border:none;padding:14px;border-radius:14px;font-family:'Cairo',sans-serif;font-weight:800;font-size:1rem;cursor:pointer;transition:.3s;display:flex;align-items:center;justify-content:center;gap:7px;}
+    .modal-btn-order:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(217,4,41,.45);}
+    .modal-btn-custom{background:rgba(255,183,3,.1);color:var(--gold);border:1px solid rgba(255,183,3,.3);padding:14px;border-radius:14px;font-family:'Cairo',sans-serif;font-weight:800;font-size:1rem;cursor:pointer;transition:.3s;display:flex;align-items:center;justify-content:center;gap:7px;}
+    .modal-btn-custom:hover{background:rgba(255,183,3,.2);}
+    .modal-btn-full{grid-column:1/-1;}
+
+    /* ===== TOAST ===== */
+    .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:linear-gradient(135deg,var(--red),var(--orange));color:#fff;padding:12px 26px;border-radius:28px;font-weight:700;font-size:.95rem;z-index:11000;transition:.4s;opacity:0;pointer-events:none;box-shadow:0 8px 28px rgba(217,4,41,.5);}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+    /* ===== FOOTER ===== */
+    .footer{background:var(--dark2);border-top:1px solid rgba(255,183,3,.08);padding:36px 24px;text-align:center;margin-top:0;}
+    .footer-brand{font-size:1.4rem;font-weight:900;margin-bottom:10px;}
+    .footer-brand .gold{color:var(--gold);}
+    .footer-links{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:12px;}
+    .footer-links a{color:rgba(255,255,255,.45);text-decoration:none;font-size:.82rem;transition:.3s;}
+    .footer-links a:hover{color:var(--gold);}
+    .footer-copy{color:rgba(255,255,255,.25);font-size:.75rem;}
+
+    /* CONFETTI */
+    @keyframes confettiFall{from{transform:translateY(-10px) rotate(0deg);opacity:1;}to{transform:translateY(110vh) rotate(720deg);opacity:0;}}
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="nav">
+  <a href="index.html" class="nav-brand">
+    <span class="logo-emoji">🍔</span>
+    <span><span class="gold">خلتشي</span> خلتشي</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">الرئيسية</a></li>
+    <li><a href="menu.html">القائمة</a></li>
+    <li><a href="search.html" class="active">🔍 بحث</a></li>
+    <li><a href="pizza-maker.html">مطبخ البيتزا</a></li>
+    <li><a href="burger-maker.html">مختبر البرجر</a></li>
+    <li><a href="offers.html">العروض</a></li>
+    <li><a href="profile.html"><i class="fas fa-user-circle"></i> الملف الشخصي</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="cart.html" class="nav-cart">
+      <i class="fas fa-shopping-cart"></i> السلة
+      <span class="cart-badge" id="navCartCount">0</span>
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="search-hero">
+  <div class="floating-foods" id="floatingFoods"></div>
+  <h1>🔍 ابحث عن <em>طبختك</em></h1>
+  <p>اكتب اسم أي وجبة وشوف صورتها وتفاصيلها — أكثر من 280 صنف شهي!</p>
+
+  <div class="search-wrap">
+    <input class="search-input" id="mainSearch" type="text" placeholder="برجر، بيتزا، شاورما، تشيز كيك..." autocomplete="off" oninput="liveSearch(this.value)" onkeydown="if(event.key==='Enter')liveSearch(this.value)"/>
+    <button class="search-btn" onclick="liveSearch(document.getElementById('mainSearch').value)">
+      <i class="fas fa-search"></i> بحث
+    </button>
+  </div>
+
+  <div class="quick-tags" id="quickTags">
+    <span class="qtag" onclick="quickSearch('برجر')">🍔 برجر</span>
+    <span class="qtag" onclick="quickSearch('بيتزا')">🍕 بيتزا</span>
+    <span class="qtag" onclick="quickSearch('شاورما')">🌯 شاورما</span>
+    <span class="qtag" onclick="quickSearch('دجاج')">🍗 دجاج</span>
+    <span class="qtag" onclick="quickSearch('باستا')">🍝 باستا</span>
+    <span class="qtag" onclick="quickSearch('حلويات')">🍰 حلويات</span>
+    <span class="qtag" onclick="quickSearch('مشروبات')">🥤 مشروبات</span>
+    <span class="qtag" onclick="quickSearch('مقبلات')">🍟 مقبلات</span>
+    <span class="qtag" onclick="quickSearch('حار')">🌶️ حار</span>
+    <span class="qtag" onclick="quickSearch('نباتي')">🥗 نباتي</span>
+    <span class="qtag" onclick="quickSearch('سلطات')">🥗 سلطات</span>
+    <span class="qtag" onclick="quickSearch('بحري')">🐟 بحري</span>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- INITIAL: category chips + popular -->
+  <div id="initialView">
+    <div style="text-align:center;margin-bottom:28px;">
+      <h2 style="font-size:1.1rem;font-weight:800;color:rgba(255,255,255,.7);">تصفح حسب الفئة</h2>
+    </div>
+    <div class="cats-row">
+      <div class="cat-chip" onclick="quickSearch('برجر')"><span class="ce">🍔</span><span class="cn">برجر</span></div>
+      <div class="cat-chip" onclick="quickSearch('بيتزا')"><span class="ce">🍕</span><span class="cn">بيتزا</span></div>
+      <div class="cat-chip" onclick="quickSearch('باستا')"><span class="ce">🍝</span><span class="cn">باستا</span></div>
+      <div class="cat-chip" onclick="quickSearch('شاورما')"><span class="ce">🌯</span><span class="cn">شاورما</span></div>
+      <div class="cat-chip" onclick="quickSearch('دجاج')"><span class="ce">🍗</span><span class="cn">دجاج</span></div>
+      <div class="cat-chip" onclick="quickSearch('مأكولات بحرية')"><span class="ce">🐟</span><span class="cn">بحري</span></div>
+      <div class="cat-chip" onclick="quickSearch('حلويات')"><span class="ce">🍰</span><span class="cn">حلويات</span></div>
+      <div class="cat-chip" onclick="quickSearch('مشروبات')"><span class="ce">🥤</span><span class="cn">مشروبات</span></div>
+      <div class="cat-chip" onclick="quickSearch('مقبلات')"><span class="ce">🍟</span><span class="cn">مقبلات</span></div>
+      <div class="cat-chip" onclick="quickSearch('سلطات')"><span class="ce">🥗</span><span class="cn">سلطات</span></div>
+      <div class="cat-chip" onclick="quickSearch('شوربات')"><span class="ce">🥣</span><span class="cn">شوربات</span></div>
+      <div class="cat-chip" onclick="quickSearch('فطور')"><span class="ce">🍳</span><span class="cn">فطور</span></div>
+      <div class="cat-chip" onclick="quickSearch('نباتي')"><span class="ce">🌱</span><span class="cn">نباتي</span></div>
+      <div class="cat-chip" onclick="quickSearch('ساندويش')"><span class="ce">🌭</span><span class="cn">ساندويش</span></div>
+    </div>
+
+    <!-- BUILDER SPOTLIGHT BANNER IN SEARCH -->
+    <div style="background: linear-gradient(135deg, rgba(217,4,41,0.15) 0%, rgba(255,183,3,0.12) 100%); border: 1px solid rgba(255,183,3,0.25); border-radius: 20px; padding: 22px 24px; margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <img src="images/chef4.jpg" alt="الشيف حنين عادل" style="width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 2px solid #ffb703; box-shadow: 0 4px 12px rgba(255,183,3,0.3);" />
+        <div>
+          <h3 style="font-size: 1.15rem; font-weight: 900; color: #fff; margin-bottom: 3px;">
+            تريد تصميم وجبتك بنفسك؟ أو تعديل أي طبق؟ 👩‍🍳
+          </h3>
+          <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7);">
+            ادخل مطبخ البيتزا أو مختبر البرجر، أو اضغط زر <strong style="color: #ffb703;">«على ذوقك ✨»</strong> على أي طبخة بالأسفل لتخصيصها!
+          </p>
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <a href="pizza-maker.html" style="background: rgba(255,183,3,0.15); border: 1px solid #ffb703; color: #ffb703; padding: 9px 18px; border-radius: 25px; text-decoration: none; font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; transition: 0.3s;">
+          <i class="fas fa-pizza-slice"></i> صمم بيتزتك
+        </a>
+        <a href="burger-maker.html" style="background: linear-gradient(135deg, #d90429, #ff5722); color: #fff; padding: 9px 18px; border-radius: 25px; text-decoration: none; font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; transition: 0.3s; box-shadow: 0 4px 15px rgba(217,4,41,0.3);">
+          <i class="fas fa-burger"></i> مختبر البرجر
+        </a>
+      </div>
+    </div>
+
+    <div class="sec-head">
+      <h2>⭐ <span class="gold">الأكثر</span> طلباً</h2>
+    </div>
+    <div class="food-grid" id="popularGrid"></div>
+  </div>
+
+  <!-- ACTIVE RESULTS -->
+  <div id="resultsView" style="display:none;">
+    <!-- BUILDER SPOTLIGHT BANNER IN SEARCH -->
+    <div style="background: linear-gradient(135deg, rgba(217,4,41,0.15) 0%, rgba(255,183,3,0.12) 100%); border: 1px solid rgba(255,183,3,0.25); border-radius: 20px; padding: 22px 24px; margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <img src="images/chef4.jpg" alt="الشيف حنين عادل" style="width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 2px solid #ffb703; box-shadow: 0 4px 12px rgba(255,183,3,0.3);" />
+        <div>
+          <h3 style="font-size: 1.15rem; font-weight: 900; color: #fff; margin-bottom: 3px;">
+            تريد تصميم وجبتك بنفسك؟ أو تعديل أي طبق؟ 👩‍🍳
+          </h3>
+          <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7);">
+            ادخل مطبخ البيتزا أو مختبر البرجر، أو اضغط زر <strong style="color: #ffb703;">«على ذوقك ✨»</strong> على أي طبخة بالأسفل لتخصيصها!
+          </p>
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <a href="pizza-maker.html" style="background: rgba(255,183,3,0.15); border: 1px solid #ffb703; color: #ffb703; padding: 9px 18px; border-radius: 25px; text-decoration: none; font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; transition: 0.3s;">
+          <i class="fas fa-pizza-slice"></i> صمم بيتزتك
+        </a>
+        <a href="burger-maker.html" style="background: linear-gradient(135deg, #d90429, #ff5722); color: #fff; padding: 9px 18px; border-radius: 25px; text-decoration: none; font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; transition: 0.3s; box-shadow: 0 4px 15px rgba(217,4,41,0.3);">
+          <i class="fas fa-burger"></i> مختبر البرجر
+        </a>
+      </div>
+    </div>
+
+    <div class="sec-head">
+      <h2>نتائج: <span class="gold" id="searchTermLabel"></span></h2>
+      <div class="results-pill" id="resultsCountPill"></div>
+    </div>
+    <div class="food-grid" id="resultsGrid"></div>
+  </div>
+
+</div>
+
+<!-- CHEF SECTION -->
+<section class="chef-section">
+  <div class="chef-inner">
+    <h2 class="chef-title">الشيف <span class="gold">حنين عادل</span> وفريقها 👩‍🍳</h2>
+    <p class="chef-sub">وراء كل طبق شهي، قلب يحب الطبخ ويد تتقنه</p>
+
+    <div class="chef-grid">
+      <!-- Featured -->
+      <div class="chef-card featured">
+        <img src="images/chef4.jpg" alt="حنين عادل - الشيف الرئيسية" loading="lazy"/>
+        <div class="chef-card-info">
+          <div class="chef-card-name">حنين عادل — الشيف الرئيسي ⭐</div>
+          <div class="chef-card-role">8 سنوات خبرة • إيطالي وشرقي وعالمي</div>
+          <div class="chef-card-stars">★★★★★ أفضل شيفة 2024</div>
+        </div>
+      </div>
+      <!-- Others -->
+      <div class="chef-card">
+        <img src="images/chef2.jpg" alt="حنين - بيتزا" loading="lazy"/>
+        <div class="chef-card-info">
+          <div class="chef-card-name">حنين 🍕 البيتزا</div>
+          <div class="chef-card-role">متخصصة في البيتزا الإيطالية</div>
+          <div class="chef-card-stars">★★★★★</div>
+        </div>
+      </div>
+      <div class="chef-card">
+        <img src="images/chef5.jpg" alt="حنين - برجر" loading="lazy"/>
+        <div class="chef-card-info">
+          <div class="chef-card-name">حنين 🍔 البرجر</div>
+          <div class="chef-card-role">ملكة البرجر والوجبات السريعة</div>
+          <div class="chef-card-stars">★★★★★</div>
+        </div>
+      </div>
+      <div class="chef-card">
+        <img src="images/chef3.jpg" alt="حنين - حلويات" loading="lazy"/>
+        <div class="chef-card-info">
+          <div class="chef-card-name">حنين 🍰 الحلويات</div>
+          <div class="chef-card-role">ماهرة في الحلويات الفرنسية</div>
+          <div class="chef-card-stars">★★★★★</div>
+        </div>
+      </div>
+      <div class="chef-card">
+        <img src="images/chef1.jpg" alt="حنين - صحي" loading="lazy"/>
+        <div class="chef-card-info">
+          <div class="chef-card-name">حنين 🥗 الصحي</div>
+          <div class="chef-card-role">متخصصة في الأكل الصحي والسلطات</div>
+          <div class="chef-card-stars">★★★★☆</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-brand"><span class="gold">خلتشي</span> خلتشي</div>
+  <div class="footer-links">
+    <a href="index.html">الرئيسية</a>
+    <a href="menu.html">القائمة</a>
+    <a href="search.html">البحث</a>
+    <a href="pizza-maker.html">مطبخ البيتزا</a>
+    <a href="burger-maker.html">مختبر البرجر</a>
+    <a href="cart.html">السلة</a>
+    <a href="offers.html">العروض</a>
+  </div>
+  <p class="footer-copy">© 2025 خلتشي خلتشي — مطبخ حنين عادل 👩‍🍳</p>
+</footer>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="foodModal" onclick="closeModal(event)">
+  <div class="modal-box">
+    <div class="modal-img-wrap">
+      <img src="" alt="" id="modalImg" onerror="this.style.display='none'"/>
+      <div class="modal-img-overlay"></div>
+      <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+      <div class="modal-price-big" id="modalPriceBig"></div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-cat" id="modalCat"></div>
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-desc-box" id="modalDesc"></div>
+      <div class="modal-stats">
+        <div class="modal-stat"><span class="modal-stat-val" id="modalPrice"></span><span class="modal-stat-label">السعر (د.أ)</span></div>
+        <div class="modal-stat"><span class="modal-stat-val" id="modalCal"></span><span class="modal-stat-label">سعرة حرارية</span></div>
+      </div>
+      <div class="modal-actions" id="modalActions"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/profile-manager.js"></script>
+<script src="js/food-data.js"></script>
+<script src="js/search-engine.js"></script>
+<script src="js/food-audio.js"></script>
+<script src="js/cart-tracker.js"></script>
+<script src="js/customizer.js"></script>
+<script>
+// ===== POPULAR ITEMS =====
+const POPULAR_IDS = ['b1','p3','s1','ch1','pa1','d1','dr2','si2','b4','p1','d5','ch3'];
+
+document.addEventListener('DOMContentLoaded', () => {
+  spawnFloatingFoods();
+  renderPopular();
+  updateNavCart();
+  const urlQ = new URLSearchParams(location.search).get('q');
+  if (urlQ) { document.getElementById('mainSearch').value = urlQ; liveSearch(urlQ); }
+});
+
+function spawnFloatingFoods() {
+  const emojis = ['🍔','🍕','🍝','🌯','🍗','🍰','🥤','🍟','🥗','🍣','🌮','☕'];
+  const wrap = document.getElementById('floatingFoods');
+  emojis.forEach((e, i) => {
+    const el = document.createElement('div');
+    el.className = 'floating-food';
+    el.textContent = e;
+    el.style.cssText = `left:${(i/emojis.length)*100}%;top:${10+Math.random()*80}%;--dur:${7+Math.random()*6}s;--delay:${Math.random()*4}s;`;
+    wrap.appendChild(el);
+  });
+}
+
+function renderPopular() {
+  const grid = document.getElementById('popularGrid');
+  const items = SEARCH_DB.filter(i => POPULAR_IDS.includes(i.id));
+  grid.innerHTML = '';
+  items.forEach(item => grid.appendChild(buildCard(item)));
+}
+
+let searchTimer = null;
+function liveSearch(val) {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => doSearch(val), 220);
+}
+
+function quickSearch(term) {
+  document.querySelectorAll('.qtag').forEach(t => t.classList.remove('active'));
+  document.getElementById('mainSearch').value = term;
+  doSearch(term);
+  document.getElementById('resultsView').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function doSearch(val) {
+  const q = val.trim();
+  const initView = document.getElementById('initialView');
+  const resultsView = document.getElementById('resultsView');
+
+  if (!q) { initView.style.display = ''; resultsView.style.display = 'none'; return; }
+
+  initView.style.display = 'none';
+  resultsView.style.display = '';
+
+  document.getElementById('searchTermLabel').textContent = '"' + q + '"';
+  const results = searchFood(q);
+  document.getElementById('resultsCountPill').textContent = results.length + ' نتيجة';
+
+  const grid = document.getElementById('resultsGrid');
+  grid.innerHTML = '';
+
+  if (!results.length) {
+    grid.innerHTML = `<div class="empty-state"><span class="big">🤔</span><h3>ما لقيناها</h3><p>جرّب كلمة أخرى مثل: برجر، بيتزا، دجاج...</p></div>`;
+    return;
+  }
+
+  results.forEach((item, i) => {
+    const card = buildCard(item);
+    card.style.animationDelay = (i * 55) + 'ms';
+    grid.appendChild(card);
+  });
+}
+
+function buildCard(item) {
+  const colors = CAT_COLORS[item.category] || ['#555','#777'];
+  const card = document.createElement('div');
+  card.className = 'food-card';
+  card.style.animation = 'cardPop .4s cubic-bezier(.34,1.56,.64,1) both';
+
+  card.innerHTML = `
+    <div class="food-card-img" onclick="openModal('${item.id}')">
+      <img src="${item.img}" alt="${item.name}" loading="lazy"
+        onerror="this.classList.add('errored')"
+        onload="this.classList.remove('loading')"/>
+      <div class="img-fallback">${item.emoji}</div>
+      <span class="cat-badge" style="background:${colors[0]}bb;color:#fff;">${item.category}</span>
+      <span class="price-tag">${item.price.toFixed(2)} د.أ</span>
+    </div>
+    <div class="food-card-body">
+      <div class="food-card-name">${item.name}</div>
+      <div class="food-card-desc">${item.desc}</div>
+      <div class="food-card-meta">
+        <span><i class="fas fa-fire"></i> ${item.cal} سعرة</span>
+        <span>•</span>
+        <span><i class="fas fa-star" style="color:var(--gold);"></i> 4.8</span>
+      </div>
+      <div class="food-card-actions">
+        <button class="btn-normal" onclick="orderNormalItem(${JSON.stringify(item).replace(/"/g, '&quot;')})">
+          <i class="fas fa-cart-plus"></i> طلب عادي
+        </button>
+        <button class="btn-custom" onclick="openCustomizeModal(${JSON.stringify(item).replace(/"/g, '&quot;')})">
+          <i class="fas fa-magic"></i> على ذوقك ✨
+        </button>
+      </div>
+    </div>`;
+  return card;
+}
+
+// ===== MODAL =====
+function openModal(id) {
+  const item = SEARCH_DB.find(i => i.id === id);
+  if (!item) return;
+  const colors = CAT_COLORS[item.category] || ['#555','#777'];
+  const itemJson = JSON.stringify(item).replace(/"/g, '&quot;');
+
+  document.getElementById('modalImg').src = item.img;
+  document.getElementById('modalImg').alt = item.name;
+  document.getElementById('modalImg').style.display = '';
+  document.getElementById('modalCat').innerHTML = `<span style="background:${colors[0]}44;color:${colors[1]};padding:3px 10px;border-radius:12px;font-size:.7rem;font-weight:700;">${item.category}</span> &nbsp;${item.nameEn}`;
+  document.getElementById('modalName').textContent = item.name;
+  document.getElementById('modalDesc').textContent = item.desc;
+  document.getElementById('modalPrice').textContent = item.price.toFixed(2);
+  document.getElementById('modalCal').textContent = item.cal;
+  document.getElementById('modalPriceBig').textContent = item.price.toFixed(2) + ' د.أ';
+
+  const actionsEl = document.getElementById('modalActions');
+  actionsEl.innerHTML = `
+    <button class="modal-btn-order" onclick="orderNormalItem(${itemJson});closeModal()">
+      <i class="fas fa-cart-plus"></i> طلب عادي
+    </button>
+    <button class="modal-btn-custom" onclick="closeModal();openCustomizeModal(${itemJson})">
+      <i class="fas fa-magic"></i> على ذوقك ✨
+    </button>`;
+
+  document.getElementById('foodModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e && e.target !== document.getElementById('foodModal')) return;
+  document.getElementById('foodModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ===== CART =====
+function addToCart(id) {
+  const item = SEARCH_DB.find(i => i.id === id);
+  if (!item) return;
+  addKhaltchiCartItem(item);
+}
+
+function goCustomize(category) {
+  const c = CUSTOMIZABLE[category];
+  if (c) window.location.href = c.link;
+}
+
+function updateNavCart() {
+  const cart = JSON.parse(localStorage.getItem('khaltchi_cart') || '[]');
+  const n = cart.reduce((s, i) => s + i.qty, 0);
+  const el = document.getElementById('navCartCount');
+  if (el) el.textContent = n;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function spawnConfetti() {
+  const emojis = ['🍔','🍕','🌟','✨','🎉','🔥','🧀'];
+  for (let i = 0; i < 12; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.textContent = emojis[i % emojis.length];
+      el.style.cssText = `position:fixed;left:${Math.random()*100}vw;top:-30px;font-size:${1.2+Math.random()*.8}rem;z-index:12000;animation:confettiFall ${1.5+Math.random()*1.5}s linear forwards;pointer-events:none;`;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 3100);
+    }, i * 70);
+  }
+}
+
+const st = document.createElement('style');
+st.textContent = `@keyframes cardPop{from{opacity:0;transform:scale(.85) translateY(18px);}to{opacity:1;transform:scale(1) translateY(0);}}`;
+document.head.appendChild(st);
+</script>
+</body>
+</html>

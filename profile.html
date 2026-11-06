@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>الملف الشخصي 👑 | خلتشي خلتشي</title>
+  <meta name="description" content="الملف الشخصي وإعدادات الحساب لمطعم خلتشي خلتشي">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@300;400;500;700;800;900&family=Rubik:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/food.css">
+  <style>
+    /* أنماط وتنسيقات صفحة الملف الشخصي */
+    .profile-page-wrapper {
+      padding: 3rem 0 5rem;
+      min-height: calc(100vh - 120px);
+    }
+
+    .profile-card-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* رأس البروفايل */
+    .profile-header-card {
+      background: linear-gradient(135deg, rgba(28, 33, 44, 0.95), rgba(18, 21, 28, 0.98));
+      border: 1px solid rgba(255, 183, 3, 0.3);
+      border-radius: 28px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5), 0 0 25px rgba(255, 183, 3, 0.1);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 2rem;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .profile-header-card::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      left: -50px;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(255, 183, 3, 0.2), transparent 70%);
+      pointer-events: none;
+    }
+
+    .profile-avatar-wrapper {
+      position: relative;
+      width: 130px;
+      height: 130px;
+      flex-shrink: 0;
+    }
+
+    .profile-avatar-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--cheddar-gold);
+      box-shadow: 0 8px 25px rgba(255, 183, 3, 0.4);
+      background: #111;
+      transition: transform 0.3s ease;
+    }
+
+    .profile-avatar-img:hover {
+      transform: scale(1.03);
+    }
+
+    .avatar-upload-trigger {
+      position: absolute;
+      bottom: 2px;
+      left: 2px;
+      width: 38px;
+      height: 38px;
+      background: var(--primary-orange);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: 2px solid #fff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      transition: all 0.2s ease;
+    }
+
+    .avatar-upload-trigger:hover {
+      background: var(--cheddar-gold);
+      color: #000;
+      transform: scale(1.12);
+    }
+
+    #profileFileInput {
+      display: none;
+    }
+
+    .profile-main-meta {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .profile-badge-row {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.6rem;
+    }
+
+    .badge-vip {
+      background: linear-gradient(135deg, #ffb703, #fb8500);
+      color: #000;
+      font-weight: 800;
+      font-size: 0.8rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .badge-jordan {
+      background: rgba(46, 196, 182, 0.15);
+      border: 1px solid #2ec4b6;
+      color: #2ec4b6;
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+    }
+
+    .profile-user-name {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #fff;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    .profile-user-phone {
+      color: var(--cheddar-gold-light);
+      font-family: var(--font-price);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-top: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      direction: ltr;
+      justify-content: flex-end;
+    }
+
+    .profile-bio-text {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-top: 0.6rem;
+    }
+
+    /* شبكة تفاصيل البروفايل والتعديل */
+    .profile-sections-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2rem;
+    }
+
+    .profile-box {
+      background: rgba(24, 28, 38, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 22px;
+      padding: 1.8rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .profile-box-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--cheddar-gold);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 0.8rem;
+    }
+
+    .form-row-profile {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      text-align: right;
+    }
+
+    .form-group-item label {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .form-group-item input,
+    .form-group-item select,
+    .form-group-item textarea {
+      padding: 0.85rem 1rem;
+      background: #141720;
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      color: #fff;
+      font-family: var(--font-arabic);
+      font-size: 0.95rem;
+      transition: all 0.25s;
+      outline: none;
+    }
+
+    .form-group-item input:focus,
+    .form-group-item select:focus,
+    .form-group-item textarea:focus {
+      border-color: var(--cheddar-gold);
+      box-shadow: 0 0 12px rgba(255, 183, 3, 0.25);
+    }
+
+    /* أزرار اختيار وتبديل نمط الجهاز المباشر */
+    .device-switcher-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 0.8rem;
+      margin-top: 0.6rem;
+    }
+
+    .device-switch-btn {
+      background: #141720;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 0.8rem 0.6rem;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+
+    .device-switch-btn i {
+      font-size: 1.4rem;
+      color: var(--cheddar-gold);
+    }
+
+    .device-switch-btn:hover {
+      border-color: rgba(255, 183, 3, 0.5);
+      background: #1c212d;
+    }
+
+    .device-switch-btn.active {
+      border-color: var(--cheddar-gold);
+      background: rgba(255, 183, 3, 0.15);
+      box-shadow: 0 4px 15px rgba(255, 183, 3, 0.25);
+    }
+
+    .btn-save-profile {
+      background: linear-gradient(135deg, var(--cheddar-gold), var(--primary-orange));
+      color: #000;
+      border: none;
+      border-radius: 14px;
+      padding: 0.9rem 2rem;
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--font-arabic);
+      box-shadow: 0 6px 20px rgba(255, 183, 3, 0.35);
+      transition: all 0.25s;
+    }
+
+    .btn-save-profile:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(255, 183, 3, 0.5);
+    }
+
+    /* الودجات الجانبية */
+    .stat-mini-card {
+      background: #151822;
+      border-radius: 16px;
+      padding: 1.1rem;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .stat-mini-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: rgba(255, 183, 3, 0.15);
+      color: var(--cheddar-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .stat-mini-info h4 {
+      font-size: 1.1rem;
+      margin: 0;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .stat-mini-info p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin: 0.2rem 0 0;
+    }
+
+    .chef-shoutout-box {
+      background: linear-gradient(135deg, rgba(217, 4, 41, 0.15), rgba(255, 87, 34, 0.1));
+      border: 1px solid rgba(217, 4, 41, 0.3);
+      border-radius: 18px;
+      padding: 1.2rem;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .chef-shoutout-box img {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--cheddar-gold);
+      margin-bottom: 0.6rem;
+    }
+
+    /* توست التنبيه الإشعاري */
+    .toast-alert {
+      position: fixed;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1e2430;
+      border: 2px solid var(--cheddar-gold);
+      color: #fff;
+      padding: 0.9rem 1.8rem;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 1rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      z-index: 99999;
+      opacity: 0;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+
+    .toast-alert.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      .profile-sections-grid {
+        grid-template-columns: 1fr;
+      }
+      .form-row-profile {
+        grid-template-columns: 1fr;
+      }
+      .profile-header-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.8rem 1.2rem;
+      }
+      .profile-user-phone {
+        justify-content: center;
+      }
+      .profile-badge-row {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon-wrapper">
+          <i class="fas fa-burger"></i>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name"><span>خلتشي</span> خلتشي</span>
+          <span class="brand-slogan">أكل بجنن • طعم لا يُنسى</span>
+        </div>
+      </a>
+
+      <nav class="nav-menu" id="navMenu">
+        <a href="index.html" class="nav-link"><i class="fas fa-home"></i> الرئيسية</a>
+        <a href="menu.html" class="nav-link"><i class="fas fa-utensils"></i> القائمة</a>
+        <a href="search.html" class="nav-link"><i class="fas fa-search"></i> بحث</a>
+        <a href="pizza-maker.html" class="nav-link"><i class="fas fa-pizza-slice"></i> صمم بيتزتك</a>
+        <a href="burger-maker.html" class="nav-link"><i class="fas fa-burger"></i> صمم برجرك</a>
+        <a href="cart.html" class="nav-link"><i class="fas fa-bag-shopping"></i> سلة الطلب</a>
+        <a href="offers.html" class="nav-link"><i class="fas fa-tags"></i> العروض</a>
+        <a href="profile.html" class="nav-link active"><i class="fas fa-user-circle"></i> الملف الشخصي</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="btn-sound" id="audioToggle" title="الصوت"><i class="fas fa-volume-up"></i></button>
+        <a href="cart.html" class="nav-cart-btn">
+          <i class="fas fa-shopping-cart"></i>
+          <span>السلة</span>
+          <span class="cart-count-badge">0</span>
+        </a>
+        <button class="mobile-toggle-btn" id="mobileNavToggle"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- PROFILE MAIN CONTENT -->
+  <main class="profile-page-wrapper">
+    <div class="container profile-card-container">
+
+      <!-- هيدر الملف الشخصي والصورة -->
+      <div class="profile-header-card">
+        <div class="profile-avatar-wrapper">
+          <img src="images/chef1.jpg" alt="صورة الملف الشخصي" id="avatarDisplay" class="profile-avatar-img" onerror="this.src='images/chef1.jpg'">
+          <label for="profileFileInput" class="avatar-upload-trigger" title="رفع صورة بروفايل جديدة">
+            <i class="fas fa-camera"></i>
+          </label>
+          <input type="file" id="profileFileInput" accept="image/*" onchange="handleAvatarUpload(event)">
+        </div>
+
+        <div class="profile-main-meta">
+          <div class="profile-badge-row">
+            <span class="badge-vip"><i class="fas fa-crown"></i> عميل خلتشي خلتشي المميز</span>
+            <span class="badge-jordan"><i class="fas fa-flag"></i> نشامى الأردن 🇯🇴</span>
+            <span class="badge-jordan" id="headerDeviceBadge"><i class="fas fa-mobile"></i> هاتف ذكي</span>
+          </div>
+          <h1 class="profile-user-name" id="displayUserName">جاري التحميل...</h1>
+          <div class="profile-user-phone" id="displayUserPhone">+962 079XXXXXXX</div>
+          <p class="profile-bio-text" id="displayUserBio">عاشق لأكلات خلتشي خلتشي الشهية ومحب للبرجر والبيتزا المشوية بحب وإتقان 🔥</p>
+        </div>
+
+        <div style="text-align: left;">
+          <button type="button" class="btn-secondary" onclick="window.KhaltchiUser.logout()" style="padding: 0.6rem 1rem; font-size: 0.85rem; border-color: rgba(239,68,68,0.5); color: #fca5a5;">
+            <i class="fas fa-arrow-right-from-bracket"></i> تسجيل الخروج
+          </button>
+        </div>
+      </div>
+
+      <!-- شبكة النماذج والإعدادات -->
+      <div class="profile-sections-grid">
+        <!-- الجانب الأيمن: تعديل المعلومات -->
+        <div class="profile-main-forms">
+          
+          <!-- صندوق البيانات الأساسية -->
+          <div class="profile-box">
+            <h3 class="profile-box-title">
+              <i class="fas fa-user-pen"></i> المعلومات الشخصية الأساسية
+            </h3>
+
+            <div class="form-row-profile">
+              <div class="form-group-item">
+                <label for="editName"><i class="fas fa-signature"></i> اسمك الكامل:</label>
+                <input type="text" id="editName" placeholder="الاسم الكامل">
+              </div>
+              <div class="form-group-item">
+                <label for="editPhone"><i class="fas fa-phone"></i> رقم الهاتف (الأردن):</label>
+                <input type="text" id="editPhone" placeholder="رقم الهاتف">
+              </div>
+            </div>
+
+            <div class="form-row-profile">
+              <div class="form-group-item">
+                <label for="editCity"><i class="fas fa-city"></i> المدينة في الأردن:</label>
+                <select id="editCity">
+                  <option value="عمان">عمان (العاصمة)</option>
+                  <option value="إربد">إربد (عروس الشمال)</option>
+                  <option value="الزرقاء">الزرقاء</option>
+                  <option value="العقبة">العقبة</option>
+                  <option value="السلط">السلط</option>
+                  <option value="مادبا">مادبا</option>
+                  <option value="جرش">جرش</option>
+                  <option value="عجلون">عجلون</option>
+                  <option value="الكرك">الكرك</option>
+                  <option value="الطفيلة">الطفيلة</option>
+                  <option value="معان">معان</option>
+                  <option value="المفرق">المفرق</option>
+                </select>
+              </div>
+              <div class="form-group-item">
+                <label><i class="fas fa-location-crosshairs"></i> تحديد الموقع الجغرافي 📍:</label>
+                <button type="button" class="btn-secondary" onclick="updateGeoLocation()" style="width: 100%; height: 48px; font-size: 0.9rem;">
+                  <i class="fas fa-crosshairs"></i> تحديث موقعي الحالي بدقة
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group-item" style="margin-bottom: 1.2rem;">
+              <label for="editAddress"><i class="fas fa-map-marked-alt"></i> العنوان التفصيلي للتوصيل:</label>
+              <input type="text" id="editAddress" placeholder="اسم المنطقة، الحي، الشارع، رقم البناية، الطابق، الشقة...">
+            </div>
+
+            <div class="form-group-item" style="margin-bottom: 1.2rem;">
+              <label for="editBio"><i class="fas fa-comment-dots"></i> ملاحظاتي الخاصة للشيف وحبي للأكل:</label>
+              <textarea id="editBio" rows="2" placeholder="تفضيلاتي: أكل حار، بدون بصل، صوص رانش إضافي..."></textarea>
+            </div>
+
+            <div class="form-group-item">
+              <label for="editEmail"><i class="fas fa-envelope"></i> البريد الإلكتروني (اختياري للخصومات):</label>
+              <input type="email" id="editEmail" placeholder="your-email@example.com">
+            </div>
+          </div>
+
+          <!-- صندوق نوع الجهاز المخصص -->
+          <div class="profile-box">
+            <h3 class="profile-box-title">
+              <i class="fas fa-laptop-mobile"></i> نوع وتصميم الجهاز النشط (تبديل فوري)
+            </h3>
+            <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 0.8rem;">
+              اختر أي جهاز لمعاينة وتطبيق تصميمه المناسب والأزرار المخصصة له على كامل الموقع فورياً:
+            </p>
+
+            <div class="device-switcher-grid">
+              <button type="button" class="device-switch-btn" data-dev="ios" onclick="changeUserDevice('ios')">
+                <i class="fab fa-apple"></i>
+                <span>هاتف iOS</span>
+              </button>
+              <button type="button" class="device-switch-btn" data-dev="android" onclick="changeUserDevice('android')">
+                <i class="fab fa-android"></i>
+                <span>هاتف Android</span>
+              </button>
+              <button type="button" class="device-switch-btn" data-dev="ipad" onclick="changeUserDevice('ipad')">
+                <i class="fas fa-tablet-screen-button"></i>
+                <span>آيباد iPad</span>
+              </button>
+              <button type="button" class="device-switch-btn" data-dev="laptop" onclick="changeUserDevice('laptop')">
+                <i class="fas fa-laptop"></i>
+                <span>لابتوب</span>
+              </button>
+              <button type="button" class="device-switch-btn" data-dev="pc" onclick="changeUserDevice('pc')">
+                <i class="fas fa-desktop"></i>
+                <span>بيسي PC</span>
+              </button>
+            </div>
+          </div>
+
+          <button type="button" class="btn-save-profile" onclick="saveProfileChanges()">
+            <i class="fas fa-save"></i>
+            <span>حفظ كافة التعديلات في الملف الشخصي ✅</span>
+          </button>
+        </div>
+
+        <!-- الجانب الأيسر: إحصائيات وعالم الشيف حنين عادل -->
+        <div class="profile-sidebar-widgets">
+          
+          <div class="profile-box">
+            <h3 class="profile-box-title">
+              <i class="fas fa-chart-pie"></i> نشاطك في خلتشي
+            </h3>
+
+            <div class="stat-mini-card">
+              <div class="stat-mini-icon"><i class="fas fa-shopping-bag"></i></div>
+              <div class="stat-mini-info">
+                <h4 id="statCartCount">0 وجبة بالسلة</h4>
+                <p><a href="cart.html" style="color: var(--cheddar-gold); text-decoration: none;">عرض السلة والطلب الآن &larr;</a></p>
+              </div>
+            </div>
+
+            <div class="stat-mini-card">
+              <div class="stat-mini-icon"><i class="fas fa-gift"></i></div>
+              <div class="stat-mini-info">
+                <h4>عجلة الحظ الملكية</h4>
+                <p id="spinCooldownStat">متاحة كل 5 أيام! <a href="offers.html" style="color: #2ec4b6;">جرّب حظك</a></p>
+              </div>
+            </div>
+
+            <div class="stat-mini-card">
+              <div class="stat-mini-icon"><i class="fas fa-location-dot"></i></div>
+              <div class="stat-mini-info">
+                <h4 id="statLocationCity">الأردن</h4>
+                <p id="statCoords">إحداثيات محفوظة</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- بوكس الشيف حنين عادل -->
+          <div class="chef-shoutout-box">
+            <img src="images/chef2.jpg" alt="الشيف حنين عادل" onerror="this.src='images/chef1.jpg'">
+            <h4 style="color: #fff; font-size: 1.1rem; margin-bottom: 0.3rem;">الشيف حنين عادل 👩‍🍳</h4>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.8rem;">
+              صاحبة ومؤسسة مطعم خلتشي خلتشي تشرف على كل تفصيلة لضمان أعلى معايير الجودة والنكهة الساحرة.
+            </p>
+            <a href="menu.html" class="btn-primary" style="padding: 0.6rem 1.2rem; font-size: 0.85rem; width: 100%;">
+              <i class="fas fa-utensils"></i> تصفح 280+ طبخة شهية
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- إشعار توست الحفظ -->
+  <div class="toast-alert" id="profileToast">
+    <i class="fas fa-check-circle" style="color: #2ec4b6;"></i>
+    <span id="toastMsg">تم الحفظ بنجاح!</span>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="js/profile-manager.js"></script>
+  <script src="js/food-data.js"></script>
+  <script src="js/food-audio.js"></script>
+  <script src="js/cart-tracker.js"></script>
+  <script>
+    let currentProfile = {};
+
+    function loadProfileData() {
+      currentProfile = window.KhaltchiUser.getProfile() || {
+        name: 'عميل خلتشي',
+        phone: '+962 079XXXXXXX',
+        device: 'pc',
+        country: 'الأردن',
+        city: 'عمان',
+        avatar: 'images/chef1.jpg',
+        bio: 'عاشق لأكلات خلتشي خلتشي الشهية ومحب للبرجر والبيتزا المشوية بحب وإتقان 🔥',
+        address: 'الأردن - عمان'
+      };
+
+      // تعبئة عناصر الرأس
+      document.getElementById('displayUserName').innerText = currentProfile.name || 'عميل خلتشي';
+      document.getElementById('displayUserPhone').innerText = currentProfile.phone || '+962 079XXXXXXX';
+      document.getElementById('displayUserBio').innerText = currentProfile.bio || 'أهلاً بك في خلتشي خلتشي!';
+      document.getElementById('avatarDisplay').src = currentProfile.avatar || 'images/chef1.jpg';
+      
+      const devBadge = document.getElementById('headerDeviceBadge');
+      if (devBadge) {
+        devBadge.innerHTML = `<i class="fas ${window.KhaltchiUser.getDeviceIcon(currentProfile.device)}"></i> ${window.KhaltchiUser.getDeviceName(currentProfile.device)}`;
+      }
+
+      // تعبئة حقول التعديل
+      document.getElementById('editName').value = currentProfile.name || '';
+      document.getElementById('editPhone').value = currentProfile.phone || '';
+      document.getElementById('editCity').value = currentProfile.city || 'عمان';
+      document.getElementById('editAddress').value = currentProfile.address || '';
+      document.getElementById('editBio').value = currentProfile.bio || '';
+      document.getElementById('editEmail').value = currentProfile.email || '';
+
+      // تمييز زر الجهاز النشط
+      highlightActiveDevice(currentProfile.device || 'pc');
+
+      // إحصائيات
+      document.getElementById('statLocationCity').innerText = (currentProfile.city || 'عمان') + ' - الأردن 🇯🇴';
+      if (currentProfile.coords) {
+        document.getElementById('statCoords').innerText = `إحداثيات: ${currentProfile.coords.lat.toFixed(2)}, ${currentProfile.coords.lng.toFixed(2)}`;
+      } else {
+        document.getElementById('statCoords').innerText = 'الموقع الافتراضي معتمد';
+      }
+
+      // قراءة السلة
+      try {
+        const cart = JSON.parse(localStorage.getItem('khaltchi_cart')) || [];
+        const count = cart.reduce((acc, it) => acc + (it.qty || 1), 0);
+        document.getElementById('statCartCount').innerText = `${count} وجبة في السلة`;
+      } catch (e) {}
+    }
+
+    function highlightActiveDevice(device) {
+      document.querySelectorAll('.device-switch-btn').forEach(btn => {
+        if (btn.getAttribute('data-dev') === device) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
+
+    // تبديل فوري للجهاز
+    function changeUserDevice(newDevice) {
+      currentProfile.device = newDevice;
+      highlightActiveDevice(newDevice);
+      window.KhaltchiUser.setDevice(newDevice);
+      const devBadge = document.getElementById('headerDeviceBadge');
+      if (devBadge) {
+        devBadge.innerHTML = `<i class="fas ${window.KhaltchiUser.getDeviceIcon(newDevice)}"></i> ${window.KhaltchiUser.getDeviceName(newDevice)}`;
+      }
+      showToast(`تم التبديل بنجاح لتصميم: ${window.KhaltchiUser.getDeviceName(newDevice)} ✨`);
+    }
+
+    // رفع وتغيير صورة البروفايل
+    function handleAvatarUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      if (!file.type.startsWith('image/')) {
+        alert('يرجى اختيار ملف صورة صالح (JPG أو PNG أو WEBP)');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const base64Data = e.target.result;
+        currentProfile.avatar = base64Data;
+        document.getElementById('avatarDisplay').src = base64Data;
+        
+        // حفظ الصورة فورياً
+        window.KhaltchiUser.saveProfile({ avatar: base64Data });
+
+        // تحديث الصورة في القائمة الجانبية وشريط التنقل
+        const navAvatar = document.querySelector('.nav-user-avatar');
+        if (navAvatar) navAvatar.src = base64Data;
+        const drawerAvatar = document.getElementById('drawerUserAvatar');
+        if (drawerAvatar) drawerAvatar.src = base64Data;
+
+        showToast('تم تحديث صورتك الشخصية بنجاح! 📸');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // تحديث الموقع الجغرافي
+    function updateGeoLocation() {
+      if ('geolocation' in navigator) {
+        showToast('جاري طلب تحديد الموقع الجغرافي 📍...');
+        navigator.geolocation.getCurrentPosition(
+          function (pos) {
+            currentProfile.coords = {
+              lat: pos.coords.latitude,
+              lng: pos.coords.longitude
+            };
+            window.KhaltchiUser.saveProfile({ coords: currentProfile.coords });
+            document.getElementById('statCoords').innerText = `إحداثيات: ${pos.coords.latitude.toFixed(2)}, ${pos.coords.longitude.toFixed(2)}`;
+            showToast('تم تحديث إحداثيات موقعك الجغرافي بدقة! 📍');
+          },
+          function (err) {
+            showToast('تعذر الوصول للإحداثيات الحالية، تم الإبقاء على المدينة المختارة.');
+          }
+        );
+      } else {
+        alert('المتصفح لا يدعم الوصول المباشر للإحداثيات.');
+      }
+    }
+
+    // حفظ كافة تعديلات النموذج
+    function saveProfileChanges() {
+      const newName = document.getElementById('editName').value.trim();
+      const newPhone = document.getElementById('editPhone').value.trim();
+      const newCity = document.getElementById('editCity').value;
+      const newAddress = document.getElementById('editAddress').value.trim();
+      const newBio = document.getElementById('editBio').value.trim();
+      const newEmail = document.getElementById('editEmail').value.trim();
+
+      if (!newName) {
+        alert('يرجى إدخال اسمك!');
+        return;
+      }
+
+      // فحص هل تم تغيير الاسم وهل هو مكرر
+      if (newName.toLowerCase() !== (currentProfile.name || '').toLowerCase()) {
+        if (window.KhaltchiUser.isNameTaken(newName, currentProfile.name)) {
+          alert('عذراً، هذا الاسم مستخدم بالفعل! اختر اسماً آخر.');
+          return;
+        }
+      }
+
+      currentProfile.name = newName;
+      currentProfile.phone = newPhone;
+      currentProfile.city = newCity;
+      currentProfile.address = newAddress;
+      currentProfile.bio = newBio;
+      currentProfile.email = newEmail;
+
+      // حفظ
+      window.KhaltchiUser.saveProfile(currentProfile);
+
+      // تحديث العرض
+      document.getElementById('displayUserName').innerText = newName;
+      document.getElementById('displayUserPhone').innerText = newPhone;
+      document.getElementById('displayUserBio').innerText = newBio;
+      document.getElementById('statLocationCity').innerText = newCity + ' - الأردن 🇯🇴';
+
+      showToast('تم حفظ كافة بياناتك بنجاح في ملفك الشخصي! ✅');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('profileToast');
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3500);
+    }
+
+    document.addEventListener('DOMContentLoaded', loadProfileData);
+  </script>
+</body>
+</html>

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>خلتشي خلتشي 🍔 | أفخم برجر وبيتزا في البلد</title>
+  <meta name="description" content="خلتشي خلتشي - مطعم البرجر والبيتزا الأسطوري. صمم بيتزتك وبرجرك بنفسك أو اطلب من قائمتنا المميزة. توصيل سريع!">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@300;400;500;700;800;900&family=Rubik:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/food.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon-wrapper">
+          <i class="fas fa-burger"></i>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name"><span>خلتشي</span> خلتشي</span>
+          <span class="brand-slogan">أكل بجنن • طعم لا يُنسى</span>
+        </div>
+      </a>
+
+      <nav class="nav-menu" id="navMenu">
+        <a href="index.html" class="nav-link active"><i class="fas fa-home"></i> الرئيسية</a>
+        <a href="menu.html" class="nav-link"><i class="fas fa-utensils"></i> القائمة</a>
+        <a href="search.html" class="nav-link"><i class="fas fa-search"></i> بحث</a>
+        <a href="pizza-maker.html" class="nav-link"><i class="fas fa-pizza-slice"></i> صمم بيتزتك</a>
+        <a href="burger-maker.html" class="nav-link"><i class="fas fa-burger"></i> صمم برجرك</a>
+        <a href="cart.html" class="nav-link"><i class="fas fa-bag-shopping"></i> سلة الطلب</a>
+        <a href="offers.html" class="nav-link"><i class="fas fa-tags"></i> العروض</a>
+        <a href="profile.html" class="nav-link"><i class="fas fa-user-circle"></i> الملف الشخصي</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="btn-sound" id="audioToggle" title="الصوت"><i class="fas fa-volume-up"></i></button>
+        <a href="cart.html" class="nav-cart-btn">
+          <i class="fas fa-shopping-cart"></i>
+          <span>السلة</span>
+          <span class="cart-count-badge">0</span>
+        </a>
+        <button class="mobile-toggle-btn" id="mobileNavToggle"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <div style="margin-bottom: 1.2rem;">
+            <span class="badge badge-fire"><i class="fas fa-fire"></i> الأعلى تقييماً في المنطقة</span>
+          </div>
+          <h1>
+            أكل <span class="highlight">بجنن</span> من<br>خلتشي خلتشي 🔥
+          </h1>
+          <p>
+            من عجينة البيتزا الإيطالية المخمّرة 48 ساعة إلى برجر الأنجوس المدخّن على الصاج الساخن — كل قرمشة وكل لقمة بتجنن! صمّم وجبتك بنفسك أو اختر من قائمتنا الملكية.
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="menu.html" class="btn-primary">
+              <i class="fas fa-utensils"></i>
+              <span>قائمة الطعام الكاملة</span>
+            </a>
+            <a href="search.html" class="btn-secondary">
+              <i class="fas fa-search"></i>
+              <span>ابحث عن أي طبخة</span>
+            </a>
+            <a href="offers.html" class="btn-secondary">
+              <i class="fas fa-gift"></i>
+              <span>العروض ودولاب الحظ</span>
+            </a>
+          </div>
+
+          <div class="hero-perks">
+            <div class="hero-perk-item">
+              <div class="hero-perk-icon"><i class="fas fa-motorcycle"></i></div>
+              <span class="hero-perk-text">توصيل في 30 دقيقة</span>
+            </div>
+            <div class="hero-perk-item">
+              <div class="hero-perk-icon"><i class="fas fa-fire"></i></div>
+              <span class="hero-perk-text">طازج دائماً</span>
+            </div>
+            <div class="hero-perk-item">
+              <div class="hero-perk-icon"><i class="fas fa-award"></i></div>
+              <span class="hero-perk-text">مكونات حلال</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Visual -->
+        <div class="hero-visual-stage">
+          <div class="hero-floating-card" id="heroCard">
+            <span class="hero-floating-badge">🔥 الأكثر طلباً</span>
+
+            <!-- Floating ingredients around card -->
+            <span class="floating-ingredient fi-1">🧀</span>
+            <span class="floating-ingredient fi-2">🌶️</span>
+            <span class="floating-ingredient fi-3">🍅</span>
+            <span class="floating-ingredient fi-4">🧅</span>
+
+            <div class="hero-food-plate" id="heroFoodPlate" style="width: 240px; height: 240px; border-radius: 50%; overflow: hidden; border: 4px solid #ffb703; box-shadow: 0 10px 35px rgba(255,183,3,0.35); margin: 0 auto; display: flex; align-items: center; justify-content: center; background: #12141a;">
+              <img id="heroFoodImg" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80" alt="برجر خلتشي الأسطوري" style="width: 100%; height: 100%; object-fit: cover; transition: 0.5s ease-in-out;" />
+            </div>
+            <div class="hero-floating-card-info" style="margin-top: 15px;">
+              <h3 id="heroFoodName">برجر خلتشي الأسطوري</h3>
+              <p id="heroFoodPrice">6.50 د.أ</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HANEEN ADEL PHOTO GALLERY -->
+  <section class="haneen-home-section" id="haneen-adel">
+    <div class="container haneen-home-grid">
+      <div class="haneen-home-copy">
+        <span class="badge badge-gold"><i class="fas fa-camera"></i> من يوميات المطعم</span>
+        <h2>الشيف <span class="highlight">حنين عادل</span> 👩‍🍳</h2>
+        <p>أهلاً بكم في مطبخ خلتشي خلتشي — تعرفوا على حنين من خلال صورها، واختاروا أكلتكم المفضلة من القائمة.</p>
+        <a href="menu.html" class="btn-primary">
+          <i class="fas fa-utensils"></i> تصفح قائمة الطعام
+        </a>
+        <a href="search.html" class="btn-secondary" style="margin-right: 0.5rem;">
+          <i class="fas fa-search"></i> ابحث عن أكلة
+        </a>
+      </div>
+      <div class="haneen-photo-grid" aria-label="صور الشيف حنين عادل">
+        <figure class="haneen-photo haneen-photo-featured">
+          <img src="images/chef4.jpg" alt="الشيف حنين عادل في المطعم" fetchpriority="high">
+          <figcaption>حنين عادل</figcaption>
+        </figure>
+        <figure class="haneen-photo">
+          <img src="images/chef2.jpg" alt="صورة للشيفة حنين عادل" loading="lazy">
+          <figcaption>حنين عادل</figcaption>
+        </figure>
+        <figure class="haneen-photo">
+          <img src="images/chef3.jpg" alt="صورة قريبة للشيفة حنين عادل" loading="lazy">
+          <figcaption>حنين عادل</figcaption>
+        </figure>
+        <figure class="haneen-photo">
+          <img src="images/chef5.jpg" alt="الشيف حنين عادل" loading="lazy">
+          <figcaption>حنين عادل</figcaption>
+        </figure>
+        <figure class="haneen-photo">
+          <img src="images/chef1.jpg" alt="حنين عادل في أجواء الطبيعة" loading="lazy">
+          <figcaption>من يوميات حنين</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES SECTION -->
+  <section style="padding: 2rem 0 5rem;">
+    <div class="container">
+      <div class="section-header">
+        <div class="sub-badge"><i class="fas fa-th-large"></i> صنف اختيارك</div>
+        <h2>اختر من <span class="highlight">تخصصاتنا</span></h2>
+        <p>كل شيء يتحضر طازج لحظة طلبك - من شواء اللحم حتى تطرية العجين</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1.5rem;">
+        <!-- Burger Category -->
+        <a href="menu.html?cat=burgers" class="food-card" style="text-align: center; text-decoration: none; cursor: pointer; padding: 0; overflow: hidden; border-radius: 18px;">
+          <div style="height: 150px; overflow: hidden; position: relative;">
+            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&q=80" alt="برجر" style="width: 100%; height: 100%; object-fit: cover; transition: 0.4s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform=''" />
+            <span style="position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.7); padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; color: #ffb703;">🍔 برجر</span>
+          </div>
+          <div style="padding: 12px 8px;">
+            <h3 class="food-card-title" style="text-align: center; font-size: 1.05rem; margin-bottom: 2px;">برجر لحم ودجاج</h3>
+            <p class="food-card-desc" style="text-align: center; font-size: 0.8rem; margin: 0;">أنجوس طازج مشوي</p>
+          </div>
+        </a>
+
+        <!-- Pizza Category -->
+        <a href="menu.html?cat=pizzas" class="food-card" style="text-align: center; text-decoration: none; padding: 0; overflow: hidden; border-radius: 18px;">
+          <div style="height: 150px; overflow: hidden; position: relative;">
+            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&q=80" alt="بيتزا" style="width: 100%; height: 100%; object-fit: cover; transition: 0.4s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform=''" />
+            <span style="position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.7); padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; color: #ffb703;">🍕 بيتزا</span>
+          </div>
+          <div style="padding: 12px 8px;">
+            <h3 class="food-card-title" style="text-align: center; font-size: 1.05rem; margin-bottom: 2px;">بيتزا إيطالية</h3>
+            <p class="food-card-desc" style="text-align: center; font-size: 0.8rem; margin: 0;">عجينة حجرية 48 س</p>
+          </div>
+        </a>
+
+        <!-- Chicken Category -->
+        <a href="menu.html?cat=chicken" class="food-card" style="text-align: center; text-decoration: none; padding: 0; overflow: hidden; border-radius: 18px;">
+          <div style="height: 150px; overflow: hidden; position: relative;">
+            <img src="https://images.unsplash.com/photo-1562967914-608f82629710?w=500&q=80" alt="دجاج مقرمش" style="width: 100%; height: 100%; object-fit: cover; transition: 0.4s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform=''" />
+            <span style="position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.7); padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; color: #ffb703;">🍗 دجاج وشاورما</span>
+          </div>
+          <div style="padding: 12px 8px;">
+            <h3 class="food-card-title" style="text-align: center; font-size: 1.05rem; margin-bottom: 2px;">دجاج وشاورما</h3>
+            <p class="food-card-desc" style="text-align: center; font-size: 0.8rem; margin: 0;">كرسبي ومشوي حار</p>
+          </div>
+        </a>
+
+        <!-- Sides Category -->
+        <a href="menu.html?cat=sides" class="food-card" style="text-align: center; text-decoration: none; padding: 0; overflow: hidden; border-radius: 18px;">
+          <div style="height: 150px; overflow: hidden; position: relative;">
+            <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=500&q=80" alt="لوديد فرايز" style="width: 100%; height: 100%; object-fit: cover; transition: 0.4s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform=''" />
+            <span style="position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.7); padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; color: #ffb703;">🍟 جانبيات</span>
+          </div>
+          <div style="padding: 12px 8px;">
+            <h3 class="food-card-title" style="text-align: center; font-size: 1.05rem; margin-bottom: 2px;">مقبلات وفرايز</h3>
+            <p class="food-card-desc" style="text-align: center; font-size: 0.8rem; margin: 0;">لوديد وموتزاريلا ستيكس</p>
+          </div>
+        </a>
+
+        <!-- Drinks Category -->
+        <a href="menu.html?cat=drinks" class="food-card" style="text-align: center; text-decoration: none; padding: 0; overflow: hidden; border-radius: 18px;">
+          <div style="height: 150px; overflow: hidden; position: relative;">
+            <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=500&q=80" alt="ميلك شيك" style="width: 100%; height: 100%; object-fit: cover; transition: 0.4s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform=''" />
+            <span style="position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.7); padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; color: #ffb703;">🥤 مشروبات وحلويات</span>
+          </div>
+          <div style="padding: 12px 8px;">
+            <h3 class="food-card-title" style="text-align: center; font-size: 1.05rem; margin-bottom: 2px;">ميلك شيك وعصائر</h3>
+            <p class="food-card-desc" style="text-align: center; font-size: 0.8rem; margin: 0;">طازج وبارد ينعشك</p>
+          </div>
+        </a>
+
+        <!-- Custom Maker -->
+        <a href="search.html" class="food-card" style="text-align: center; text-decoration: none; padding: 0; overflow: hidden; border-radius: 18px; border: 2px solid #ffb703;">
+          <div style="height: 150px; overflow: hidden; position: relative; background: radial-gradient(circle, rgba(255,183,3,0.25), #12141a); display: flex; align-items: center; justify-content: center;">
+            <img src="https://images.unsplash.com/photo-1546793665-c74683f339c1?w=500&q=80" alt="ابحث وصمم" style="width: 100%; height: 100%; object-fit: cover; transition: 0.4s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform=''" />
+            <span style="position: absolute; bottom: 8px; right: 8px; background: rgba(217,4,41,0.85); padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; color: #fff;">🔍 بحث شامل</span>
+          </div>
+          <div style="padding: 12px 8px;">
+            <h3 class="food-card-title" style="text-align: center; font-size: 1.05rem; color: #ffb703; margin-bottom: 2px;">ابحث عن أي وجبة</h3>
+            <p class="food-card-desc" style="text-align: center; font-size: 0.8rem; margin: 0;">أكثر من 280 صنف شهي</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- LUCKY SPIN WHEEL SECTION -->
+  <section class="lucky-wheel-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="sub-badge"><i class="fas fa-gift"></i> العروض والهبات</div>
+        <h2>🎰 دولاب حظ <span class="highlight">خلتشي</span> الدوار</h2>
+        <p>اضغط على الدولاب وادِّر لتربح خصومات وأكل مجاني من خلتشي!</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+        <div class="wheel-wrapper-box">
+          <div class="wheel-outer-ring" style="position: relative;">
+            <div class="wheel-pointer"></div>
+            <canvas id="spinWheelCanvas"></canvas>
+            <div class="wheel-center-pin" id="btnSpinWheel">🎰</div>
+          </div>
+          <div id="spinWheelResult"></div>
+        </div>
+
+        <div>
+          <h3 style="font-size: 1.8rem; margin-bottom: 1.2rem;">كيف تلعب؟</h3>
+          <div style="display: flex; flex-direction: column; gap: 1.2rem;">
+            <div style="display: flex; gap: 1rem; align-items: flex-start;">
+              <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-orange), var(--primary-red)); display: flex; align-items: center; justify-content: center; font-weight: 900; flex-shrink: 0;">1</div>
+              <div>
+                <h4 style="color: #fff; margin-bottom: 0.3rem;">اضغط على الدولاب</h4>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">اضغط على أيقونة 🎰 في المنتصف لتدوير الدولاب</p>
+              </div>
+            </div>
+            <div style="display: flex; gap: 1rem; align-items: flex-start;">
+              <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--cheddar-gold), var(--crispy-amber)); display: flex; align-items: center; justify-content: center; font-weight: 900; flex-shrink: 0; color: #000;">2</div>
+              <div>
+                <h4 style="color: #fff; margin-bottom: 0.3rem;">انتظر نتيجتك</h4>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">الدولاب يدور ويتوقف على جائزتك تلقائياً</p>
+              </div>
+            </div>
+            <div style="display: flex; gap: 1rem; align-items: flex-start;">
+              <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--fresh-green), var(--fresh-green-dark)); display: flex; align-items: center; justify-content: center; font-weight: 900; flex-shrink: 0;">3</div>
+              <div>
+                <h4 style="color: #fff; margin-bottom: 0.3rem;">استخدم كوبونك!</h4>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">انسخ الكود وضعه عند الطلب في سلة المشتريات</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 2rem; background: rgba(255,183,3,0.1); border: 1px solid rgba(255,183,3,0.3); border-radius: var(--radius-md); padding: 1.2rem;">
+            <p style="color: var(--cheddar-gold); font-weight: 700;"><i class="fas fa-tags"></i> الجوائز المتاحة:</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.8rem;">
+              <span class="badge badge-fire">خصم 50%</span>
+              <span class="badge badge-gold">بيتزا مجانية 🍕</span>
+              <span class="badge badge-green">ميلك شيك مجاني 🥤</span>
+              <span class="badge badge-fire">خصم 25%</span>
+              <span class="badge badge-gold">لوديد فرايز 🍟</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED MENU ITEMS -->
+  <section style="padding: 2rem 0 6rem;">
+    <div class="container">
+      <div class="section-header">
+        <div class="sub-badge"><i class="fas fa-crown"></i> الأكثر طلباً</div>
+        <h2>⭐ أشهر <span class="highlight">وجباتنا</span> هذا الأسبوع</h2>
+        <p>اختيارات الزبائن المفضلة التي تطلبها دائماً</p>
+      </div>
+
+      <div class="menu-grid" id="featuredGrid"></div>
+
+      <div style="text-align: center; margin-top: 3rem;">
+        <a href="menu.html" class="btn-primary" style="font-size: 1.1rem; padding: 1rem 2.5rem;">
+          <i class="fas fa-utensils"></i> <span>شاهد القائمة كاملة</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY KHALTCHI -->
+  <section style="padding: 3rem 0 6rem; background: radial-gradient(circle at 80% 50%, rgba(255,183,3,0.08) 0%, transparent 60%);">
+    <div class="container">
+      <div class="section-header">
+        <div class="sub-badge"><i class="fas fa-star"></i> مين إحنا</div>
+        <h2>ليش <span class="highlight">خلتشي خلتشي</span> مختلف؟</h2>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2rem;">
+        <div class="food-card" style="text-align: center;">
+          <div style="font-size: 3.5rem; margin-bottom: 1rem;">🥩</div>
+          <h3 class="food-card-title">لحم أنجوس طازج يومياً</h3>
+          <p class="food-card-desc">نستلم لحم الأنجوس الطازج كل صباح ونشويه على الصاج الساخن مباشرة لحظة الطلب</p>
+        </div>
+        <div class="food-card" style="text-align: center;">
+          <div style="font-size: 3.5rem; margin-bottom: 1rem;">🫓</div>
+          <h3 class="food-card-title">عجينة مخمّرة 48 ساعة</h3>
+          <p class="food-card-desc">عجينة البيتزا الإيطالية الأصيلة تخمّر يومين كاملين للحصول على أفضل قرمشة وطراوة</p>
+        </div>
+        <div class="food-card" style="text-align: center;">
+          <div style="font-size: 3.5rem; margin-bottom: 1rem;">🧀</div>
+          <h3 class="food-card-title">أجبان حقيقية فاخرة</h3>
+          <p class="food-card-desc">موتزاريلا إيطالية، شيدر إنجليزي وجورجونزولا — لا بدائل ولا تنازل في الجودة</p>
+        </div>
+        <div class="food-card" style="text-align: center;">
+          <div style="font-size: 3.5rem; margin-bottom: 1rem;">🛵</div>
+          <h3 class="food-card-title">توصيل ساخن في 30 دقيقة</h3>
+          <p class="food-card-desc">فريق الديليفري لدينا مدرب على الوصول قبل أن تبرد الوجبة — مضمون!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <div class="brand-logo" style="margin-bottom: 1.2rem;">
+          <div class="brand-icon-wrapper" style="width: 44px; height: 44px;">
+            <i class="fas fa-burger" style="color: #fff; font-size: 1.3rem;"></i>
+          </div>
+          <div class="brand-text">
+            <span class="brand-name"><span>خلتشي</span> خلتشي</span>
+            <span class="brand-slogan">أكل بجنن • طعم لا يُنسى</span>
+          </div>
+        </div>
+        <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.8;">
+          مطعم متخصص بأشهى البرجر والبيتزا بمكونات طازجة ومواصفات فاخرة. التوصيل متاح كل أيام الأسبوع من 11 صباحاً حتى 2 بعد منتصف الليل.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>قائمتنا</h4>
+        <ul class="footer-links">
+          <li><a href="menu.html?cat=burgers"><i class="fas fa-chevron-left"></i> برجر أسطوري</a></li>
+          <li><a href="menu.html?cat=pizzas"><i class="fas fa-chevron-left"></i> بيتزا إيطالية</a></li>
+          <li><a href="menu.html?cat=chicken"><i class="fas fa-chevron-left"></i> دجاج مقرمش</a></li>
+          <li><a href="menu.html?cat=sides"><i class="fas fa-chevron-left"></i> جانبيات وفرايز</a></li>
+          <li><a href="menu.html?cat=drinks"><i class="fas fa-chevron-left"></i> مشروبات وشيك</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>تجارب خاصة</h4>
+        <ul class="footer-links">
+          <li><a href="pizza-maker.html"><i class="fas fa-chevron-left"></i> صمّم بيتزتك</a></li>
+          <li><a href="burger-maker.html"><i class="fas fa-chevron-left"></i> اصنع برجرك</a></li>
+          <li><a href="cart.html"><i class="fas fa-chevron-left"></i> سلة الطلب</a></li>
+          <li><a href="offers.html"><i class="fas fa-chevron-left"></i> العروض والكوبونات</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>تواصل معنا</h4>
+        <div style="display: flex; flex-direction: column; gap: 0.8rem; color: var(--text-secondary);">
+          <span><i class="fas fa-phone" style="color: var(--cheddar-gold); margin-left: 0.5rem;"></i> 0796-KHALTCHI</span>
+          <span><i class="fas fa-map-marker-alt" style="color: var(--primary-orange); margin-left: 0.5rem;"></i> عمّان، شارع المدينة المنورة</span>
+          <span><i class="fas fa-clock" style="color: var(--fresh-green); margin-left: 0.5rem;"></i> 11 ص – 2 ص كل الأيام</span>
+        </div>
+        <div style="display: flex; gap: 0.8rem; margin-top: 1.2rem;">
+          <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,87,34,0.2); border: 1px solid rgba(255,87,34,0.4); display: flex; align-items: center; justify-content: center; color: var(--primary-orange); text-decoration: none;"><i class="fab fa-instagram"></i></a>
+          <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,183,3,0.2); border: 1px solid rgba(255,183,3,0.4); display: flex; align-items: center; justify-content: center; color: var(--cheddar-gold); text-decoration: none;"><i class="fab fa-tiktok"></i></a>
+          <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(46,196,182,0.2); border: 1px solid rgba(46,196,182,0.4); display: flex; align-items: center; justify-content: center; color: var(--fresh-green); text-decoration: none;"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>© 2026 خلتشي خلتشي 🍔🍕 | صُنع بحب ولحم أنجوس طازج — كل الحقوق محفوظة</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="js/profile-manager.js"></script>
+  <script src="js/food-data.js"></script>
+  <script src="js/food-audio.js"></script>
+  <script src="js/search-engine.js"></script>
+  <script src="js/cart-tracker.js"></script>
+  <script src="js/customizer.js"></script>
+  <script src="js/food-main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Hero rotating showcase with real photos
+      const dishes = [
+        { img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80', name: 'برجر خلتشي الأسطوري', price: '6.50 د.أ' },
+        { img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80', name: 'بيتزا خلتشي بيبروني كوين', price: '8.50 د.أ' },
+        { img: 'https://images.unsplash.com/photo-1562967914-608f82629710?w=600&q=80', name: 'ساندوتش دجاج سوبر كرسبي', price: '6.25 د.أ' },
+        { img: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=600&q=80', name: 'لوديد فرايز بالجبنة والبيكون', price: '4.25 د.أ' },
+        { img: 'https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=600&q=80', name: 'شاورما دجاج إيطالية شيف حنين', price: '3.50 د.أ' }
+      ];
+      let dishIdx = 0;
+
+      function rotateDish() {
+        dishIdx = (dishIdx + 1) % dishes.length;
+        const d = dishes[dishIdx];
+        const imgEl = document.getElementById('heroFoodImg');
+        const nameEl = document.getElementById('heroFoodName');
+        const priceEl = document.getElementById('heroFoodPrice');
+        if (imgEl) {
+          imgEl.style.opacity = '0.3';
+          imgEl.style.transform = 'scale(0.92)';
+          setTimeout(() => {
+            imgEl.src = d.img;
+            imgEl.alt = d.name;
+            imgEl.style.opacity = '1';
+            imgEl.style.transform = 'scale(1)';
+          }, 200);
+        }
+        if (nameEl) nameEl.textContent = d.name;
+        if (priceEl) priceEl.textContent = d.price;
+      }
+
+      setInterval(rotateDish, 3400);
+
+      // 3D tilt on hero card
+      const heroCard = document.getElementById('heroCard');
+      if (heroCard) {
+        document.addEventListener('mousemove', (e) => {
+          const rect = heroCard.getBoundingClientRect();
+          const cx = rect.left + rect.width / 2;
+          const cy = rect.top + rect.height / 2;
+          const dx = (e.clientX - cx) / (rect.width / 2);
+          const dy = (e.clientY - cy) / (rect.height / 2);
+          heroCard.style.transform = `perspective(1200px) rotateX(${-dy * 10}deg) rotateY(${dx * 10}deg)`;
+        });
+        document.addEventListener('mouseleave', () => {
+          heroCard.style.transform = '';
+        });
+      }
+    });
+  </script>
+</body>
+</html>

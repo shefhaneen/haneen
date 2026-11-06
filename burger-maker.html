@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>مختبر البرجر – خلتشي خلتشي</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="css/food.css"/>
+  <style>
+    :root{--red:#d90429;--orange:#ff5722;--gold:#ffb703;--dark:#101216;--dark2:#181c24;--dark3:#1f242f;--card-bg:#1a1f2b;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--dark);color:#fff;font-family:'Cairo',sans-serif;overflow-x:hidden;}
+
+    /* NAV */
+    .food-nav{position:fixed;top:0;left:0;right:0;z-index:999;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(16,18,22,.92);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,183,3,.15);}
+    .nav-brand{font-size:1.6rem;font-weight:900;color:#fff;text-decoration:none;letter-spacing:1px;}
+    .nav-brand span{color:var(--gold);}
+    .nav-links{display:flex;gap:24px;list-style:none;}
+    .nav-links a{color:rgba(255,255,255,.8);text-decoration:none;font-weight:600;font-size:.95rem;transition:.3s;padding:6px 14px;border-radius:30px;}
+    .nav-links a:hover,.nav-links a.active{color:var(--gold);background:rgba(255,183,3,.12);}
+    .nav-cart-btn{background:linear-gradient(135deg,var(--red),var(--orange));color:#fff;border:none;padding:10px 22px;border-radius:30px;font-family:'Cairo',sans-serif;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;transition:.3s;text-decoration:none;}
+    .nav-cart-btn:hover{transform:scale(1.05);box-shadow:0 6px 24px rgba(217,4,41,.4);}
+    .cart-count{background:#fff;color:var(--red);border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:900;}
+
+    /* HERO BANNER */
+    .lab-hero{margin-top:72px;background:linear-gradient(135deg,#1a0a00 0%,#2d1200 40%,#1a0a00 100%);padding:60px 32px 40px;text-align:center;position:relative;overflow:hidden;}
+    .lab-hero::before{content:'🍔';font-size:200px;position:absolute;right:-30px;top:-30px;opacity:.08;animation:floatEmoji 4s ease-in-out infinite;}
+    .lab-hero::after{content:'🍔';font-size:150px;position:absolute;left:-20px;bottom:-20px;opacity:.06;animation:floatEmoji 5s ease-in-out infinite reverse;}
+    @keyframes floatEmoji{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-20px) rotate(10deg);}}
+    .lab-hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:900;margin-bottom:12px;}
+    .lab-hero h1 span{color:var(--gold);}
+    .lab-hero p{color:rgba(255,255,255,.7);font-size:1.1rem;max-width:600px;margin:0 auto;}
+
+    /* STEPS BAR */
+    .steps-bar{display:flex;justify-content:center;gap:0;padding:24px 32px;background:var(--dark2);border-bottom:1px solid rgba(255,183,3,.1);}
+    .step-pill{display:flex;align-items:center;gap:8px;padding:10px 20px;border-radius:30px;font-weight:700;font-size:.85rem;color:rgba(255,255,255,.4);transition:.3s;cursor:pointer;}
+    .step-pill.active{background:linear-gradient(135deg,var(--red),var(--orange));color:#fff;box-shadow:0 4px 16px rgba(217,4,41,.4);}
+    .step-pill .step-num{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:.75rem;}
+    .step-pill.active .step-num{background:rgba(255,255,255,.25);}
+    .step-arrow{color:rgba(255,255,255,.2);margin:0 4px;font-size:.8rem;}
+
+    /* MAIN LAYOUT */
+    .lab-layout{display:grid;grid-template-columns:1fr 380px;gap:32px;max-width:1300px;margin:0 auto;padding:40px 24px;}
+    @media(max-width:900px){.lab-layout{grid-template-columns:1fr;}}
+
+    /* BUILDER PANEL */
+    .builder-panel{background:var(--card-bg);border-radius:20px;padding:28px;border:1px solid rgba(255,183,3,.1);}
+    .panel-section{margin-bottom:32px;}
+    .panel-section h3{font-size:1.1rem;font-weight:800;margin-bottom:16px;display:flex;align-items:center;gap:10px;color:var(--gold);}
+    .panel-section h3 i{font-size:1.3rem;}
+    .options-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;}
+    .option-card{background:var(--dark3);border:2px solid transparent;border-radius:14px;padding:14px 10px;text-align:center;cursor:pointer;transition:.3s;position:relative;}
+    .option-card:hover{border-color:rgba(255,183,3,.4);transform:translateY(-3px);}
+    .option-card.selected{border-color:var(--gold);background:rgba(255,183,3,.08);box-shadow:0 0 20px rgba(255,183,3,.2);}
+    .option-emoji{font-size:2rem;display:block;margin-bottom:6px;}
+    .option-name{font-size:.85rem;font-weight:700;display:block;}
+    .option-detail{font-size:.72rem;color:rgba(255,255,255,.5);display:block;margin-top:2px;}
+    .option-price{font-size:.8rem;color:var(--gold);font-weight:700;display:block;margin-top:4px;}
+    .option-badge{position:absolute;top:-6px;left:-6px;background:var(--red);color:#fff;font-size:.6rem;font-weight:800;padding:2px 7px;border-radius:20px;}
+
+    /* EXTRAS TOGGLES */
+    .extras-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;}
+    .extra-toggle{background:var(--dark3);border:2px solid transparent;border-radius:12px;padding:10px 8px;text-align:center;cursor:pointer;transition:.3s;}
+    .extra-toggle:hover{border-color:rgba(255,87,34,.4);}
+    .extra-toggle.active{border-color:var(--orange);background:rgba(255,87,34,.1);box-shadow:0 0 14px rgba(255,87,34,.2);}
+    .extra-toggle .ext-emoji{font-size:1.5rem;display:block;margin-bottom:4px;}
+    .extra-toggle .ext-name{font-size:.75rem;font-weight:700;display:block;}
+    .extra-toggle .ext-cal{font-size:.65rem;color:rgba(255,255,255,.4);display:block;}
+
+    /* BURGER PREVIEW */
+    .preview-panel{position:sticky;top:90px;}
+    .preview-card{background:var(--card-bg);border-radius:20px;padding:24px;border:1px solid rgba(255,183,3,.15);text-align:center;}
+    .preview-card h3{font-size:1rem;font-weight:800;margin-bottom:16px;color:var(--gold);}
+    .burger-stage{min-height:320px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:16px;background:var(--dark3);border-radius:16px;margin-bottom:16px;position:relative;overflow:hidden;}
+    .burger-stage::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 100%,rgba(255,183,3,.1) 0%,transparent 70%);}
+    #burgerPlate{display:flex;flex-direction:column-reverse;align-items:center;gap:0;width:100%;position:relative;z-index:1;}
+    .burger-layer{font-size:3rem;line-height:1;animation:layerDrop .4s cubic-bezier(.34,1.56,.64,1) both;filter:drop-shadow(0 4px 8px rgba(0,0,0,.5));transition:transform .3s;cursor:pointer;}
+    .burger-layer:hover{transform:scale(1.1);}
+    @keyframes layerDrop{from{opacity:0;transform:translateY(-40px) scale(.8);}to{opacity:1;transform:translateY(0) scale(1);}}
+    .empty-burger{color:rgba(255,255,255,.2);font-size:.9rem;display:flex;flex-direction:column;align-items:center;gap:8px;padding:40px 0;}
+    .empty-burger i{font-size:3rem;color:rgba(255,183,3,.2);}
+
+    /* TELEMETRY */
+    .tele-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px;}
+    .tele-box{background:var(--dark3);border-radius:12px;padding:12px 8px;text-align:center;}
+    .tele-val{font-size:1.3rem;font-weight:900;color:var(--gold);display:block;}
+    .tele-label{font-size:.65rem;color:rgba(255,255,255,.5);margin-top:2px;display:block;}
+
+    /* RESET & ADD BUTTONS */
+    .lab-actions{display:flex;flex-direction:column;gap:10px;}
+    .btn-add-lab{background:linear-gradient(135deg,var(--red),var(--orange));color:#fff;border:none;padding:14px;border-radius:14px;font-family:'Cairo',sans-serif;font-size:1rem;font-weight:800;cursor:pointer;width:100%;transition:.3s;display:flex;align-items:center;justify-content:center;gap:8px;}
+    .btn-add-lab:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(217,4,41,.5);}
+    .btn-reset-lab{background:var(--dark3);color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.1);padding:10px;border-radius:14px;font-family:'Cairo',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;width:100%;transition:.3s;}
+    .btn-reset-lab:hover{border-color:var(--orange);color:var(--orange);}
+
+    /* NUTRITION BADGE */
+    .nutrition-row{display:flex;justify-content:center;gap:16px;margin-top:12px;flex-wrap:wrap;}
+    .nutr-badge{background:var(--dark3);border-radius:20px;padding:4px 12px;font-size:.75rem;display:flex;align-items:center;gap:5px;}
+    .nutr-badge span{color:var(--gold);font-weight:700;}
+
+    /* TOAST */
+    .toast-popup{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:linear-gradient(135deg,var(--red),var(--orange));color:#fff;padding:14px 28px;border-radius:30px;font-weight:700;font-size:1rem;z-index:9999;transition:.4s;opacity:0;pointer-events:none;box-shadow:0 8px 32px rgba(217,4,41,.5);}
+    .toast-popup.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+    /* FOOTER */
+    .food-footer{background:var(--dark2);border-top:1px solid rgba(255,183,3,.1);padding:40px 32px;text-align:center;margin-top:60px;}
+    .footer-brand{font-size:1.5rem;font-weight:900;margin-bottom:12px;}
+    .footer-brand span{color:var(--gold);}
+    .footer-links{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:16px;}
+    .footer-links a{color:rgba(255,255,255,.5);text-decoration:none;font-size:.85rem;transition:.3s;}
+    .footer-links a:hover{color:var(--gold);}
+    .footer-copy{color:rgba(255,255,255,.3);font-size:.8rem;}
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="food-nav">
+  <a href="index.html" class="nav-brand"><span>خلتشي</span> خلتشي</a>
+  <ul class="nav-links">
+    <li><a href="index.html">الرئيسية</a></li>
+    <li><a href="menu.html">القائمة</a></li>
+    <li><a href="search.html">🔍 بحث</a></li>
+    <li><a href="pizza-maker.html">مطبخ البيتزا</a></li>
+    <li><a href="burger-maker.html" class="active">مختبر البرجر</a></li>
+    <li><a href="offers.html">العروض</a></li>
+    <li><a href="profile.html"><i class="fas fa-user-circle"></i> الملف الشخصي</a></li>
+  </ul>
+  <a href="cart.html" class="nav-cart-btn">
+    <i class="fas fa-shopping-cart"></i>
+    السلة
+    <span class="cart-count" id="navCartCount">0</span>
+  </a>
+</nav>
+
+<!-- HERO -->
+<div class="lab-hero">
+  <div style="display:inline-flex; align-items:center; gap:10px; background:rgba(255,183,3,.15); border:1px solid rgba(255,183,3,.3); border-radius:30px; padding:6px 18px; margin-bottom:14px;">
+    <img src="images/chef5.jpg" alt="الشيف حنين عادل" style="width:36px; height:36px; border-radius:50%; object-fit:cover; border:2px solid #ff5722;" />
+    <span style="font-size:0.88rem; font-weight:800; color:#ffb703;">مختبر البرجر بإشراف الشيف حنين عادل 👩‍🍳</span>
+  </div>
+  <h1>🧪 مختبر <span>البرجر</span></h1>
+  <p>صمّم برجرك المثالي خطوة بخطوة — اختر كل مكون وشاهد إبداعك يتشكّل أمامك!</p>
+</div>
+
+<!-- STEPS BAR -->
+<div class="steps-bar">
+  <div class="step-pill active" id="stepPill1"><span class="step-num">1</span> الخبز</div>
+  <span class="step-arrow"><i class="fas fa-chevron-left"></i></span>
+  <div class="step-pill" id="stepPill2"><span class="step-num">2</span> اللحم</div>
+  <span class="step-arrow"><i class="fas fa-chevron-left"></i></span>
+  <div class="step-pill" id="stepPill3"><span class="step-num">3</span> الجبن</div>
+  <span class="step-arrow"><i class="fas fa-chevron-left"></i></span>
+  <div class="step-pill" id="stepPill4"><span class="step-num">4</span> الصوص</div>
+  <span class="step-arrow"><i class="fas fa-chevron-left"></i></span>
+  <div class="step-pill" id="stepPill5"><span class="step-num">5</span> الإضافات</div>
+</div>
+
+<!-- MAIN -->
+<div class="lab-layout">
+
+  <!-- LEFT: BUILDER -->
+  <div class="builder-panel">
+
+    <!-- BUN SECTION -->
+    <div class="panel-section" id="secBun">
+      <h3><i class="fas fa-circle-notch"></i> اختر الخبز</h3>
+      <div class="options-grid" id="bunGrid"></div>
+    </div>
+
+    <!-- PATTY SECTION -->
+    <div class="panel-section" id="secPatty">
+      <h3><i class="fas fa-fire"></i> اختر اللحم</h3>
+      <div class="options-grid" id="pattyGrid"></div>
+    </div>
+
+    <!-- CHEESE SECTION -->
+    <div class="panel-section" id="secCheese">
+      <h3><i class="fas fa-cheese"></i> اختر الجبن</h3>
+      <div class="options-grid" id="cheeseGrid"></div>
+    </div>
+
+    <!-- SAUCE SECTION -->
+    <div class="panel-section" id="secSauce">
+      <h3><i class="fas fa-tint"></i> اختر الصوص</h3>
+      <div class="options-grid" id="sauceGrid"></div>
+    </div>
+
+    <!-- EXTRAS SECTION -->
+    <div class="panel-section" id="secExtras">
+      <h3><i class="fas fa-plus-circle"></i> إضافات (اختر ما تريد)</h3>
+      <div class="extras-grid" id="extrasGrid"></div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: PREVIEW -->
+  <div class="preview-panel">
+    <div class="preview-card">
+      <h3>🍔 برجرك</h3>
+
+      <!-- BURGER STAGE -->
+      <div class="burger-stage">
+        <div id="burgerPlate">
+          <div class="empty-burger">
+            <i class="fas fa-hamburger"></i>
+            <span>ابدأ ببناء برجرك!</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TELEMETRY -->
+      <div class="tele-grid">
+        <div class="tele-box">
+          <span class="tele-val" id="labBurgerPrice">0.00</span>
+          <span class="tele-label">د.أ</span>
+        </div>
+        <div class="tele-box">
+          <span class="tele-val" id="labBurgerCalories">0</span>
+          <span class="tele-label">سعرة</span>
+        </div>
+        <div class="tele-box">
+          <span class="tele-val" id="labBurgerHeight">0</span>
+          <span class="tele-label">طبقات</span>
+        </div>
+      </div>
+
+      <!-- NUTRITION -->
+      <div class="nutrition-row">
+        <div class="nutr-badge"><span id="nutrProtein">0</span>g بروتين</div>
+        <div class="nutr-badge"><span id="nutrCarbs">0</span>g كارب</div>
+        <div class="nutr-badge"><span id="nutrFat">0</span>g دهون</div>
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="lab-actions" style="margin-top:16px;">
+        <button class="btn-add-lab" onclick="addBurgerToCart()">
+          <i class="fas fa-cart-plus"></i> أضف للسلة
+        </button>
+        <button class="btn-reset-lab" onclick="resetBurger()">
+          <i class="fas fa-redo"></i> إعادة تعيين
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="food-footer">
+  <div class="footer-brand"><span>خلتشي</span> خلتشي</div>
+  <div class="footer-links">
+    <a href="index.html">الرئيسية</a>
+    <a href="menu.html">القائمة</a>
+    <a href="pizza-maker.html">مطبخ البيتزا</a>
+    <a href="cart.html">السلة</a>
+    <a href="offers.html">العروض</a>
+  </div>
+  <p class="footer-copy">© 2025 خلتشي خلتشي — كل الحقوق محفوظة 🍔</p>
+</footer>
+
+<div class="toast-popup" id="toastMsg"></div>
+
+<!-- SCRIPTS -->
+<script src="js/profile-manager.js"></script>
+<script src="js/food-data.js"></script>
+<script src="js/food-audio.js"></script>
+<script src="js/burger-engine.js"></script>
+<script src="js/cart-tracker.js"></script>
+<script src="js/customizer.js"></script>
+<script src="js/food-main.js"></script>
+<script>
+// ---- Init Burger Lab ----
+let burgerLab = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+  burgerLab = new BurgerLabEngine('burgerPlate');
+  renderBurgerBuilder();
+  updateNavCart();
+});
+
+function renderBurgerBuilder() {
+  const D = BURGER_BUILDER_DATA;
+
+  // BUN
+  const bunGrid = document.getElementById('bunGrid');
+  D.buns.forEach(b => {
+    const el = document.createElement('div');
+    el.className = 'option-card';
+    el.id = 'bun_' + b.id;
+    el.onclick = () => { selectBun(b.id); burgerLab.setBun(b.id); updateTelemetry(); };
+    el.innerHTML = `<span class="option-emoji">${b.emoji}</span>
+      <span class="option-name">${b.name}</span>
+      <span class="option-detail">${b.cal} سعرة</span>
+      <span class="option-price">+${b.price.toFixed(2)} د.أ</span>`;
+    if (b.popular) el.innerHTML += `<span class="option-badge">🔥 الأشهر</span>`;
+    bunGrid.appendChild(el);
+  });
+  // auto select first
+  selectBun(D.buns[0].id);
+  burgerLab.setBun(D.buns[0].id);
+
+  // PATTY
+  const pattyGrid = document.getElementById('pattyGrid');
+  D.patties.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'option-card';
+    el.id = 'patty_' + p.id;
+    el.onclick = () => { selectPatty(p.id); burgerLab.setPatty(p.id); updateTelemetry(); };
+    el.innerHTML = `<span class="option-emoji">${p.emoji}</span>
+      <span class="option-name">${p.name}</span>
+      <span class="option-detail">${p.cal} سعرة</span>
+      <span class="option-price">+${p.price.toFixed(2)} د.أ</span>`;
+    if (p.popular) el.innerHTML += `<span class="option-badge">⭐ مميز</span>`;
+    pattyGrid.appendChild(el);
+  });
+
+  // CHEESE
+  const cheeseGrid = document.getElementById('cheeseGrid');
+  D.cheeses.forEach(c => {
+    const el = document.createElement('div');
+    el.className = 'option-card';
+    el.id = 'cheese_' + c.id;
+    el.onclick = () => { selectCheese(c.id); burgerLab.setCheese(c.id); updateTelemetry(); };
+    el.innerHTML = `<span class="option-emoji">${c.emoji}</span>
+      <span class="option-name">${c.name}</span>
+      <span class="option-detail">${c.cal} سعرة</span>
+      <span class="option-price">+${c.price.toFixed(2)} د.أ</span>`;
+    cheeseGrid.appendChild(el);
+  });
+
+  // SAUCE
+  const sauceGrid = document.getElementById('sauceGrid');
+  D.sauces.forEach(s => {
+    const el = document.createElement('div');
+    el.className = 'option-card';
+    el.id = 'sauce_' + s.id;
+    el.onclick = () => { selectSauce(s.id); burgerLab.setSauce(s.id); updateTelemetry(); };
+    el.innerHTML = `<span class="option-emoji">${s.emoji}</span>
+      <span class="option-name">${s.name}</span>
+      <span class="option-detail">${s.cal} سعرة</span>
+      <span class="option-price">+${s.price.toFixed(2)} د.أ</span>`;
+    sauceGrid.appendChild(el);
+  });
+
+  // EXTRAS
+  const extrasGrid = document.getElementById('extrasGrid');
+  D.extras.forEach(e => {
+    const el = document.createElement('div');
+    el.className = 'extra-toggle';
+    el.id = 'extra_' + e.id;
+    el.onclick = () => { toggleExtraUI(e.id); burgerLab.toggleExtra(e.id); updateTelemetry(); };
+    el.innerHTML = `<span class="ext-emoji">${e.emoji}</span>
+      <span class="ext-name">${e.name}</span>
+      <span class="ext-cal">${e.cal} سعرة | +${e.price.toFixed(2)} د.أ</span>`;
+    extrasGrid.appendChild(el);
+  });
+}
+
+function selectBun(id) {
+  document.querySelectorAll('#bunGrid .option-card').forEach(c => c.classList.remove('selected'));
+  const el = document.getElementById('bun_' + id);
+  if (el) el.classList.add('selected');
+  updateStepHighlight(1);
+}
+function selectPatty(id) {
+  document.querySelectorAll('#pattyGrid .option-card').forEach(c => c.classList.remove('selected'));
+  const el = document.getElementById('patty_' + id);
+  if (el) el.classList.add('selected');
+  updateStepHighlight(2);
+}
+function selectCheese(id) {
+  document.querySelectorAll('#cheeseGrid .option-card').forEach(c => c.classList.remove('selected'));
+  const el = document.getElementById('cheese_' + id);
+  if (el) el.classList.add('selected');
+  updateStepHighlight(3);
+}
+function selectSauce(id) {
+  document.querySelectorAll('#sauceGrid .option-card').forEach(c => c.classList.remove('selected'));
+  const el = document.getElementById('sauce_' + id);
+  if (el) el.classList.add('selected');
+  updateStepHighlight(4);
+}
+function toggleExtraUI(id) {
+  const el = document.getElementById('extra_' + id);
+  if (el) el.classList.toggle('active');
+  updateStepHighlight(5);
+}
+
+function updateStepHighlight(step) {
+  for (let i = 1; i <= 5; i++) {
+    const p = document.getElementById('stepPill' + i);
+    if (p) p.classList.toggle('active', i <= step);
+  }
+}
+
+function updateTelemetry() {
+  if (!burgerLab) return;
+  const info = burgerLab.calculateTotals();
+  document.getElementById('labBurgerPrice').textContent = info.price;
+  document.getElementById('labBurgerCalories').textContent = info.calories;
+  document.getElementById('labBurgerHeight').textContent = info.layerCount;
+  // Rough macro estimates
+  document.getElementById('nutrProtein').textContent = Math.round(info.calories * 0.25 / 4);
+  document.getElementById('nutrCarbs').textContent = Math.round(info.calories * 0.45 / 4);
+  document.getElementById('nutrFat').textContent = Math.round(info.calories * 0.30 / 9);
+}
+
+function addBurgerToCart() {
+  if (!burgerLab) return;
+  const success = burgerLab.addCustomBurgerToCart();
+  if (success) {
+    showToast('🍔 تمت الإضافة للسلة!');
+    updateNavCart();
+    // celebration particles
+    spawnConfetti();
+  }
+}
+
+function resetBurger() {
+  if (!burgerLab) return;
+  burgerLab.reset();
+  document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.extra-toggle').forEach(c => c.classList.remove('active'));
+  updateStepHighlight(0);
+  updateTelemetry();
+  // re-select first bun
+  selectBun(BURGER_BUILDER_DATA.buns[0].id);
+  burgerLab.setBun(BURGER_BUILDER_DATA.buns[0].id);
+  updateTelemetry();
+  showToast('🔄 تمت إعادة التعيين!');
+}
+
+function updateNavCart() {
+  const cart = JSON.parse(localStorage.getItem('khaltchi_cart') || '[]');
+  const count = cart.reduce((s, i) => s + i.qty, 0);
+  const el = document.getElementById('navCartCount');
+  if (el) el.textContent = count;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toastMsg');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function spawnConfetti() {
+  const emojis = ['🍔','🧀','🥓','🌟','✨','🎉','🔥'];
+  for (let i = 0; i < 20; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      el.style.cssText = `position:fixed;left:${Math.random()*100}vw;top:-30px;font-size:${1.5+Math.random()}rem;z-index:9999;animation:confettiFall ${1+Math.random()*2}s linear forwards;pointer-events:none;`;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 3000);
+    }, i * 80);
+  }
+}
+
+// Add confetti animation
+const style = document.createElement('style');
+style.textContent = `@keyframes confettiFall{from{transform:translateY(0) rotate(0deg);opacity:1;}to{transform:translateY(110vh) rotate(720deg);opacity:0;}}`;
+document.head.appendChild(style);
+</script>
+</body>
+</html>
